@@ -12,6 +12,9 @@ package com.infnet.figuras;
 public class Circulo {
     private float raio;
     
+    
+//    System.out.println("");
+    
     private void diametro(){
         
     }
