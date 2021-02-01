@@ -3,8 +3,9 @@ package com.infnet.figuras;
 
 
 public class Retângulo {
-    private float altura;
-    private float base;
+    public float altura;
+    public float largura;
+    public String cor;
     
     private void area(){
         

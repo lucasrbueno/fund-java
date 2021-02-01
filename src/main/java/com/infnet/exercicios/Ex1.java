@@ -8,12 +8,15 @@ public class Ex1 {
     public static void main(String[] args) {
     int n1 = 3;
     int n2 = 17;
-    int troca = 14;
+    int troca;
     
-    System.out.println("n1 = " + (n1 + troca) + " e n2 = " + (n2 - troca));
+    System.out.println("n1 = " + (n1) + " e n2 = " + (n2));
+    
+    troca = n1;
+    n1 = n2;
+    n2 = troca;
+
+    System.out.println("n1 = " + (n1) + " e n2 = " + (n2));
     }
-
     
-    
-
 }
