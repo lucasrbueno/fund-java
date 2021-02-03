@@ -1,6 +1,5 @@
 
 package com.infnet.exercicios;
-
 import java.util.Scanner;
 
 //Faça um algoritmo para calcular a média de duas notas digitadas pelo usuário.

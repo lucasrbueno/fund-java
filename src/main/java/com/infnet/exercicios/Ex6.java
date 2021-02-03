@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.infnet.figuras;
+package com.infnet.exercicios;
 
 /**
  *
- * @author lucas
+ * @author Lucas
  */
-public class Triangulo {
-    private float altura;
+public class Ex6 {
+    public static void main(String[] args) {
+        System.out.println("");
+
+    }
 }

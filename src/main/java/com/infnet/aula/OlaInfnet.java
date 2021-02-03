@@ -1,4 +1,4 @@
-package com.infnet.projeto;
+package com.infnet.aula;
 import java.util.Scanner;
 
 public class OlaInfnet {
