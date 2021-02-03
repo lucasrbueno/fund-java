@@ -1,4 +1,3 @@
-
 package com.infnet.exercicios;
 import java.util.Scanner;
 

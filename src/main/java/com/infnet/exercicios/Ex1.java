@@ -1,4 +1,3 @@
-
 package com.infnet.exercicios;
 
 //Faça um algoritmo que troque o valor de duas variáveis. Por exemplo, o algoritmo

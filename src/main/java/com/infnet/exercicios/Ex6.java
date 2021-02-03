@@ -1,17 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.infnet.exercicios;
+import java.util.Scanner;
 
-/**
- *
- * @author Lucas
- */
+//Faça um algoritmo que calcule a área de um quadrado, sendo que o comprimento do
+//lado é informado pelo usuário. A área do quadrado é calculada elevando-se o lado
+//ao quadrado.
+
 public class Ex6 {
     public static void main(String[] args) {
-        System.out.println("");
-
+        double area;
+        
+        area = lado("Insira o lado do quadrado: ");
+        
+        System.out.println("Área do quadrado é: " + area);
+    }
+    
+    public static int lado(String msg){
+        Scanner scan = new Scanner(System.in);
+        int lado;
+        
+        System.out.println(msg);
+        lado = (int) Math.pow(scan.nextInt(), 2);
+        return lado;
     }
 }
