@@ -2,18 +2,17 @@ package com.infnet.exercicios;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
-//Faça um algoritmo que calcule a área de um círculo, sendo que o comprimento do
-//raio é informado pelo usuário. A área do círculo é calculada multiplicando-se Pi ao
-//raio ao quadrado.
+//Faça um algoritmo que calcule a área de uma esfera, sendo que o comprimento do
+//raio é informado pelo usuário. A área da esfera é calculada multiplicando-se 4 vezes
+//Pi ao raio ao quadrado.
 
-public class Ex8 {
+public class Ex9 {
     public static void main(String[] args) {
         double resolucao;
         
-        resolucao = calculo("Qual o raio do círculo? ");
         DecimalFormat df = new DecimalFormat("#.##");
-        
-        System.out.println("A área do círculo é: " + df.format(resolucao));
+        resolucao = calculo("Qual o valor do raio da esfera? ");
+        System.out.println("O valor final é :" + df.format(resolucao));
     }
     
     public static double calculo(String msg){
@@ -21,7 +20,8 @@ public class Ex8 {
         double valor;
         
         System.out.println(msg);
-        valor = Math.PI * Math.pow(scan.nextDouble(), 2);
+        valor = 4 * Math.PI * Math.pow(scan.nextDouble(),2);
+
         return valor;
     }
 }
