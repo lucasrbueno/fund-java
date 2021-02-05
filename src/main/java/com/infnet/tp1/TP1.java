@@ -3,15 +3,10 @@ import java.util.Scanner;
 
 public class TP1 {
     public static void main(String[] args) {
-        int[] alunos = new int[1];
         
         System.out.println("[1] Registrar as notas de um novo aluno.\n[2] Consultar boletim de um aluno.\n[3] Consultar notas da turma.\n[4] Sair.\n");
         escolha();
         
-//        for(int i = 0; i > alunos.length; i++){
-//            int nota = notas();
-//            alunos[i] = nota;
-//        }
     }
 
     public static int escolha(){
@@ -19,9 +14,9 @@ public class TP1 {
         int escolha;
         String aluno;
 //        int[] alunos = new int[100];
-        String[] nome = new String[100]; 
-        int[] nota1 = new int[100];
-        int[] nota2 = new int[100];
+        String[] nome = new String[1]; 
+        int[] nota1 = new int[1];
+        int[] nota2 = new int[1];
         
         System.out.println("Qual opção deseja?");
         escolha = scan.nextInt();
@@ -32,7 +27,8 @@ public class TP1 {
                 break;
             case 2:
                 System.out.println("Insira o nome do aluno: ");
-                aluno = scan.nextLine();
+                Scanner scan1 = new Scanner(System.in);
+                aluno = scan1.nextLine();
                 aluno(aluno);
                 break;
             case 3:
@@ -48,19 +44,29 @@ public class TP1 {
         return escolha;
     }
     
-    public static int notas(){
+    public static void notas(){
         Scanner scan = new Scanner(System.in);
-        String nome;
-        int nota1, nota2;
+        String[] nome = new String[1]; 
+        int[] nota1 = new int[1];
+        int[] nota2 = new int[1];
+
+        for(int i = 0; i < nome.length; i++){
+            System.out.println("Insira o nome do aluno: ");
+            nome[i] = scan.nextLine();
+            System.out.println(nome[i]);
+        }
         
-        System.out.println("Insira o nome do aluno: ");
-        nome = scan.nextLine();
-        System.out.println("Insira a primeira nota: ");
-        nota1 = scan.nextInt();
-        System.out.println("Insira a segunda nota: ");
-        nota2 = scan.nextInt();
+        for(int i = 0; i < nota1.length; i++){
+            System.out.println("Insira a primeira nota: ");
+            nota1[i] = scan.nextInt();
+            System.out.println(nota1[i]);
+        }
         
-        return 0;
+        for(int i = 0; i < nota2.length; i++){
+            System.out.println("Insira a segunda nota: ");
+            nota2[i] = scan.nextInt();
+            System.out.println(nota2[i]);
+        }
     }
     
     public static void aluno(String aluno){
@@ -71,7 +77,7 @@ public class TP1 {
         String situacao = "";
        
         for(int i = 0; i < nome.length; i++){
-            if(aluno.equals(nome[i])){ 
+            if(aluno.contains(nome[i])){ 
             media = nota1[i] + nota2[i] / 2;
             if(media < 4){
                situacao = "Reprovado";
@@ -83,11 +89,10 @@ public class TP1 {
             
             System.out.println(nome[i]);
             System.out.println("AV1: " + nota1[i]);
-            System.out.println("AV2 = " + nota2[i]);
+            System.out.println("AV2: " + nota2[i]);
             System.out.println(" Média final: " + media);
             System.out.println("Situação: " + situacao);
             } 
-            break;
         }        
     }
 
@@ -108,9 +113,10 @@ public class TP1 {
         
             System.out.println(nome[i]);
             System.out.println("AV1: " + nota1[i]);
-            System.out.println("AV2 = " + nota2[i]);
+            System.out.println("AV2: " + nota2[i]);
             System.out.println(" Média final: " + media);
             System.out.println("Situação: " + situacao);
         }
     }
+    
 }
