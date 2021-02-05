@@ -1,14 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.infnet.exercicios;
 
-/**
- *
- * @author Lucas
- */
+//Faça um algoritmo que leia três números e mostre o maior número.
+
 public class Ex14 {
     
 }

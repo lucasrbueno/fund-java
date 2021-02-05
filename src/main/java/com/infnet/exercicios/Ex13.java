@@ -1,4 +1,3 @@
-
 package com.infnet.exercicios;
 
 //Faça um algoritmo que leia dois números e mostre o maior número.
