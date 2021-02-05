@@ -8,10 +8,10 @@ public class TP1 {
         System.out.println("[1] Registrar as notas de um novo aluno.\n[2] Consultar boletim de um aluno.\n[3] Consultar notas da turma.\n[4] Sair.\n");
         escolha();
         
-        for(int i = 0; i > alunos.length; i++){
-            int nota = notas();
-            alunos[i] = nota;
-        }
+//        for(int i = 0; i > alunos.length; i++){
+//            int nota = notas();
+//            alunos[i] = nota;
+//        }
     }
 
     public static int escolha(){
@@ -67,18 +67,50 @@ public class TP1 {
         String[] nome = new String[100]; 
         int[] nota1 = new int[100];
         int[] nota2 = new int[100];
-
+        double media;
+        String situacao = "";
+       
         for(int i = 0; i < nome.length; i++){
-            if(aluno.equals(nome[i])){
-            System.out.println(nome[i] + ": AV1 = " + nota1[i] + "e AV2 = " + nota2[i]);
+            if(aluno.equals(nome[i])){ 
+            media = nota1[i] + nota2[i] / 2;
+            if(media < 4){
+               situacao = "Reprovado";
+            } else if(media >= 4 && media < 7){
+                situacao = "Prova final";
+            } else if(media >= 7){
+                situacao = "Aprovado";
+            }
+            
+            System.out.println(nome[i]);
+            System.out.println("AV1: " + nota1[i]);
+            System.out.println("AV2 = " + nota2[i]);
+            System.out.println(" Média final: " + media);
+            System.out.println("Situação: " + situacao);
             } 
             break;
         }        
     }
-    
-    public static void turmaNotas(String[] nome, int[] nota1, int[]nota2){
+
+    public static void turmaNotas(String[] nome, int[] nota1, int[]nota2){        
+        double media;
+        String situacao = "";
+        
         for(int i = 0; i < nome.length; i++){
-            System.out.println(nome[i] + ": AV1 = " + nota1[i] + "e AV2 = " + nota2[i]);
+            
+            media = nota1[i] + nota2[i] / 2;
+            if(media < 4){
+               situacao = "Reprovado";
+            } else if(media >= 4 && media < 7){
+                situacao = "Prova final";
+            } else if(media >= 7){
+                situacao = "Aprovado";
+            }
+        
+            System.out.println(nome[i]);
+            System.out.println("AV1: " + nota1[i]);
+            System.out.println("AV2 = " + nota2[i]);
+            System.out.println(" Média final: " + media);
+            System.out.println("Situação: " + situacao);
         }
     }
 }
