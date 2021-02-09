@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 public class TP1 {
     public static void main(String[] args) {
-        
         System.out.println("[1] Registrar as notas de um novo aluno.\n[2] Consultar boletim de um aluno.\n[3] Consultar notas da turma.\n[4] Sair.\n");
         escolha(); 
     }
@@ -21,12 +20,12 @@ public class TP1 {
 
         switch (escolha) {
             case 1:
-                notas();
+                notas(nome, nota1, nota2);
                 break;
             case 2:
                 System.out.println("Insira o nome do aluno: ");
                 aluno = scan.next();
-                aluno(aluno);
+                aluno(aluno, nome, nota1, nota2);
                 break;
             case 3:
                 turmaNotas(nome, nota1, nota2);
@@ -41,11 +40,8 @@ public class TP1 {
         return escolha;
     }
     
-    public static void notas(){
+    public static void notas(String[] nome, int[] nota1, int[]nota2){
         Scanner scan = new Scanner(System.in);
-        String[] nome = new String[1]; 
-        int[] nota1 = new int[1];
-        int[] nota2 = new int[1];
 
         for(int i = 0; i < nome.length; i++){
             System.out.println("Insira o nome do aluno: ");
@@ -66,10 +62,7 @@ public class TP1 {
         }
     }
     
-    public static void aluno(String aluno){
-        String[] nome = new String[100]; 
-        int[] nota1 = new int[100];
-        int[] nota2 = new int[100];
+    public static void aluno(String aluno, String[] nome, int[] nota1, int[]nota2){
         double media;
         String situacao = "";
        

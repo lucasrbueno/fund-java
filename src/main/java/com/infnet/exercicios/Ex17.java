@@ -30,7 +30,7 @@ public class Ex17 {
         } else if (salario >= 4000){
             aumento = 0.10;
             salario += salario * aumento;
-            System.out.println("O novo salário é de " + salario + " " + aumento);
+            System.out.println("O novo salário é de " + salario);
         }
     }
 }
