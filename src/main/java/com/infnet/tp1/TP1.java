@@ -5,15 +5,13 @@ public class TP1 {
     public static void main(String[] args) {
         
         System.out.println("[1] Registrar as notas de um novo aluno.\n[2] Consultar boletim de um aluno.\n[3] Consultar notas da turma.\n[4] Sair.\n");
-        escolha();
-        
+        escolha(); 
     }
 
     public static int escolha(){
         Scanner scan = new Scanner(System.in);
         int escolha;
         String aluno;
-//        int[] alunos = new int[100];
         String[] nome = new String[1]; 
         int[] nota1 = new int[1];
         int[] nota2 = new int[1];
@@ -27,8 +25,7 @@ public class TP1 {
                 break;
             case 2:
                 System.out.println("Insira o nome do aluno: ");
-                Scanner scan1 = new Scanner(System.in);
-                aluno = scan1.nextLine();
+                aluno = scan.next();
                 aluno(aluno);
                 break;
             case 3:
@@ -117,6 +114,5 @@ public class TP1 {
             System.out.println(" Média final: " + media);
             System.out.println("Situação: " + situacao);
         }
-    }
-    
+    }  
 }
