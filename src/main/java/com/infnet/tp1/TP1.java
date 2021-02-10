@@ -8,15 +8,13 @@ public class TP1 {
 
     public static void escolha(){
         Scanner scan = new Scanner(System.in);
-        int escolha;
+        int escolha = 0;
         String aluno;
         String[] nomes = new String[100]; 
         int[] nota1 = new int[100];
         int[] nota2 = new int[100];
-        
-        int j = 1;
-        
-        while(j == 1){
+
+        while(escolha != 4){
            System.out.println("--------------------------------------------");
            System.out.println("[1] Registrar as notas de um novo aluno.\n[2] Consultar boletim de um aluno.\n[3] Consultar notas da turma.\n[4] Sair.\n");
            System.out.println("Qual opção deseja?");
@@ -35,8 +33,7 @@ public class TP1 {
                 turmaNotas(nomes, nota1, nota2);
                 break;
             case 4:
-                j = 2;
-                System.out.println("Saída com sucesso");
+                System.out.println("Saída com sucesso.");
                 break;
             default:
                 System.out.println("Opção inválida, escolha outra opção.");
