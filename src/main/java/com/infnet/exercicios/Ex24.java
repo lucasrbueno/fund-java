@@ -5,16 +5,17 @@ package com.infnet.exercicios;
 
 public class Ex24 {
     public static void main(String[] args) {
-        int n = 1000;
-        int[] numeros = new int[n];
-        int soma = 0, menor = 0, maior = 0;
+        final int N = 850;
+        int[] numeros = new int[N];
+        int soma = 0, menor = numeros[0], maior = 0;
         
-        for(int i = 0; i <= numeros.length; i++){
-            soma += i;
-            if(i > maior){
-                maior = i;
-            } else if (i < menor) {
-                menor = i;
+        for(int i = 0; i < numeros.length; i++){
+            numeros[i] = i + 1;
+            soma += numeros[i];
+            if(numeros[i] > maior){
+                maior = numeros[i];
+            } else if (numeros[i] < menor) {
+                menor = numeros[i];
             }
         }
         

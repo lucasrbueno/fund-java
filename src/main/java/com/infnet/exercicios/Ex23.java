@@ -6,14 +6,15 @@ package com.infnet.exercicios;
 public class Ex23 {
     public static void main(String[] args) {
         int[] numeros = new int[20];
-        int soma = 0, menor = 0, maior = 0;
+        int soma = 0, menor = numeros[0], maior = 0;
         
-        for(int i = 0; i <= numeros.length; i++){
-            soma += i;
-            if(i > maior){
-                maior = i;
-            } else if (i < menor) {
-                menor = i;
+        for(int i = 0; i < numeros.length; i++){
+            numeros[i] = i + 1;
+            soma += numeros[i];
+            if(numeros[i] > maior){
+                maior = numeros[i];
+            } else if (numeros[i] < menor) {
+                menor = numeros[i];
             }
         }
         
