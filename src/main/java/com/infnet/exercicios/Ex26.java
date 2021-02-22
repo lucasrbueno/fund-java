@@ -7,6 +7,18 @@ package com.infnet.exercicios;
 
 public class Ex26 {
     public static void main(String[] args) {
+        int inferior = 0, superior = 100, contar;
         
+        for(int i = inferior; i <= superior; i++){
+            contar = 0;
+            for(int j = 1; j <= i; j++){
+                if(i % j == 0){
+                    contar = ++contar;
+                }
+            }
+            if(contar == 2){
+                System.out.println(i);
+            }
+        }
     }
 }
