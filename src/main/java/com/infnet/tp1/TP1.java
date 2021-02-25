@@ -8,11 +8,13 @@ public class TP1 {
 
     public static void escolha(){
         Scanner scan = new Scanner(System.in);
+//        int contAlunos = 0;
         int escolha = 0;
+        int quant = 100;
         String aluno;
-        String[] nomes = new String[100]; 
-        int[] nota1 = new int[100];
-        int[] nota2 = new int[100];
+        String[] nomes = new String[quant]; 
+        int[] nota1 = new int[quant];
+        int[] nota2 = new int[quant];
 
         while(escolha != 4){
            System.out.println("--------------------------------------------");
@@ -22,6 +24,7 @@ public class TP1 {
            
            switch (escolha) {
             case 1:
+//                contAlunos = notas(nomes, nota1, nota2);
                 notas(nomes, nota1, nota2);
                 break;
             case 2:
@@ -54,6 +57,25 @@ public class TP1 {
             nota2[i] = scan.nextInt();
             System.out.println("O registro foi feito na posição: " + i);
             System.out.println("Próxima posição a ser ocupada: " + (i + 1));
+                    
+//             public static int registrarNotas(String[] nomes, double[] av1, double[] av2, int cont) {
+//                    String nome;
+//                    double n1, n2;
+//        
+//                        if (cont < TAM) {
+//                            nome = lerNome();
+//                            n1 = lerNota("Entre com a AV1: ");
+//                            n2 = lerNota("Entre com a AV2: ");
+//                            nomes[cont] = nome;
+//                            av1[cont] = n1;
+//                            av2[cont] = n2;
+//                            cont++;
+//                        }
+//                            else {
+//                                System.out.println("Erro: limite de alunos");
+//                            }
+//                            return cont;
+//                        }   
         }     
     }
     

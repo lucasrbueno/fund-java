@@ -3,8 +3,11 @@ com\infnet\exercicios\Ex6.class
 com\infnet\oo\loja\Produto.class
 com\infnet\exercicios\Ex1.class
 com\infnet\exercicios\Ex22.class
+com\infnet\tp2\Pessoa.class
+com\infnet\tp2\Professor.class
 com\infnet\exercicios\Ex19.class
 com\infnet\exercicios\Ex27.class
+com\infnet\tp2\Aluno.class
 com\infnet\exercicios\Ex14.class
 com\infnet\exercicios\Ex24.class
 com\infnet\exercicios\Ex16.class
@@ -19,11 +22,12 @@ com\infnet\exercicios\Ex13.class
 com\infnet\exercicios\Ex23.class
 com\infnet\tp1\TP1.class
 com\infnet\exercicios\Ex2.class
+com\infnet\exercicios\Ex28.class
 com\infnet\exercicios\Ex7.class
 com\infnet\exercicios\Ex18.class
-com\infnet\tp2\TP2.class
 com\infnet\aula\OlaInfnet.class
 com\infnet\exercicios\Ex10.class
+com\infnet\tp2\MainTP2.class
 com\infnet\exercicios\Ex25.class
 com\infnet\oo\Carro.class
 com\infnet\exercicios\Ex17.class
