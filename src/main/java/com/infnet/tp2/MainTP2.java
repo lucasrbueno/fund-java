@@ -83,8 +83,12 @@ public class MainTP2 {
     public static void consultarSituacao(Pessoa[] pessoas, int cont){
         
         for(int i = 0; i < cont; i++){
+            if(pessoas[i] instanceof Aluno){
             System.out.println("--------------------------------------------");
-            System.out.println(pessoas[i]);
+            System.out.println("Aluno:\n" + pessoas[i]);
+            } else {
+                System.out.println("Professor:\n" + pessoas[i]);
+            }
         }
     }
 }
