@@ -1,4 +1,4 @@
-package com.infnet.tp2;
+package com.infnet.tp3;
 
 import java.util.Scanner;
 
@@ -12,7 +12,7 @@ public class MainTP2 {
     public static void escolha(){
         Scanner scan = new Scanner(System.in);
         int cont = 0;
-        int escolha;
+        int escolha = 0;
         Pessoa[] pessoas = new Pessoa[QUANT];
         
         System.out.println("--------------------------------------------");

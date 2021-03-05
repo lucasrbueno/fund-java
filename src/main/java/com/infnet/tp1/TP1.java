@@ -84,7 +84,7 @@ public class TP1 {
         String situacao = "";
        
         for(int i = 0; i < nome.length; i++){
-            if(aluno.equals(nome[i])){ 
+            if(aluno.equalsIgnoreCase(nome[i])){ 
             media = (nota1[i] + nota2[i]) / 2;
             if(media < 4){
                situacao = "Reprovado";
