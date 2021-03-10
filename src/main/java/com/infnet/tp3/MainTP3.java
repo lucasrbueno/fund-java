@@ -1,8 +1,9 @@
 package com.infnet.tp3;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MainTP2 {
+public class MainTP3 {
     final static int QUANT = 100;
     
     public static void main(String[] args) {
@@ -10,15 +11,11 @@ public class MainTP2 {
     }
     
     public static void escolha(){
-        Scanner scan = new Scanner(System.in);
         int cont = 0;
-        int escolha = 0;
+        int escolha;
         Pessoa[] pessoas = new Pessoa[QUANT];
-        
-        System.out.println("--------------------------------------------");
-        System.out.println("[1] Cadastrar professor.\n[2] Cadastrar aluno.\n[3] Consultar situação de um docente/discente.\n[4] Sair.\n");
-        System.out.println("Qual opção deseja?");
-        escolha = scan.nextInt();
+
+        escolha = menu();
 
         while(escolha != 4){
            switch (escolha) {
@@ -30,16 +27,36 @@ public class MainTP2 {
                 break;
             case 3:
                 consultarSituacao(pessoas, cont);
-                break;
-            default:
+                break; 
+                default:
                 System.out.println("Opção inválida, escolha outra opção.");
-                break;    
-            }
-        System.out.println("--------------------------------------------");
-        System.out.println("[1] Cadastrar professor.\n[2] Cadastrar aluno.\n[3] Consultar situação de um docente/discente.\n[4] Sair.\n");
-        System.out.println("Qual opção deseja?");
-        escolha = scan.nextInt();
+                break;
+            }       
+           
+           escolha = menu();
         }
+    }
+    
+    public static int menu(){
+        Scanner scan = new Scanner(System.in);
+        int escolha = 0;
+        boolean bool = false;
+        
+        do {
+            try {
+                System.out.println("--------------------------------------------");
+                System.out.println("[1] Cadastrar professor.\n[2] Cadastrar aluno.\n[3] Consultar situação de um docente/discente.\n[4] Sair.\n");
+                System.out.println("Qual opção deseja?");
+                escolha = scan.nextInt();
+                bool = true;
+            }
+            catch (InputMismatchException ex) {
+                System.out.println("Se atenha aos números");
+                scan.nextLine();
+            }
+        } while (!bool);
+
+        return escolha;
     }
     
     public static int cadastrarProfessor(Pessoa[] pessoas, int cont){
