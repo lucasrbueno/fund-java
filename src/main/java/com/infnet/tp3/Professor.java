@@ -18,6 +18,8 @@ public class Professor extends Pessoa {
 
     @Override
     public String toString() {
+        materia = materia.substring(0, 1).toUpperCase() + materia.substring(1);
+        
         return super.toString() + "\nMatéria: " + materia;
     }
     

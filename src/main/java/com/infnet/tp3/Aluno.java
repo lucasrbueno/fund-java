@@ -18,6 +18,8 @@ public class Aluno extends Pessoa {
 
     @Override
     public String toString() {
+        matricula = matricula.substring(0, 1).toUpperCase() + matricula.substring(1);
+        
         return super.toString() + "\nMatricula: " + matricula;
     } 
 }

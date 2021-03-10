@@ -28,7 +28,7 @@ public class MainTP3 {
             case 3:
                 consultarSituacao(pessoas, cont);
                 break; 
-                default:
+            default:
                 System.out.println("Opção inválida, escolha outra opção.");
                 break;
             }       
@@ -44,14 +44,20 @@ public class MainTP3 {
         
         do {
             try {
-                System.out.println("--------------------------------------------");
-                System.out.println("[1] Cadastrar professor.\n[2] Cadastrar aluno.\n[3] Consultar situação de um docente/discente.\n[4] Sair.\n");
-                System.out.println("Qual opção deseja?");
+                StringBuilder menu = new StringBuilder();
+                menu.append("--------------------------------------------")
+                        .append("\n[1] Cadastrar professor.")
+                        .append("\n[2] Cadastrar aluno.")
+                        .append("\n[3] Consultar situação de um docente/discente.")
+                        .append("\n[4] Sair.")
+                        .append("\nQual opção deseja?");        
+                System.out.println(menu);
                 escolha = scan.nextInt();
                 bool = true;
             }
             catch (InputMismatchException ex) {
-                System.out.println("Se atenha aos números");
+                System.out.println("Se atenha aos números, por favor");
+            } finally {
                 scan.nextLine();
             }
         } while (!bool);
