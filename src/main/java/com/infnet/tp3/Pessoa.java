@@ -27,27 +27,15 @@ public abstract class Pessoa {
 
     @Override
     public String toString() {
-        String[] divisoes; 
+        String[] divisoes;
         StringBuilder nomeCompleto = new StringBuilder();
-        boolean bool = false;
-                
-         do {
-            try {
-                divisoes = nome.split(" ");
-                String part1 = divisoes[0];
-                String part2 = divisoes[1];
-                nome = nomeCompleto.append(part2.toUpperCase())
+        divisoes = nome.split(" ");
+        
+        nome = nomeCompleto.append(divisoes[1].toUpperCase())
                     .append(", ")
-                    .append(part1.substring(0, 1).toUpperCase())
-                    .append(part1.substring(1)).toString();
-                bool = true;
-            }
-            catch (ArrayIndexOutOfBoundsException ex) {
-                System.out.println("Escreva nome e sobrenome, por favor");
-                bool = true;
-            }
-        } while (!bool);
-
+                    .append(divisoes[0].substring(0, 1).toUpperCase())
+                    .append(divisoes[0].substring(1)).toString();
+        
         return "Nome: " + nome + "\nIdade: " + idade;
     }
 }

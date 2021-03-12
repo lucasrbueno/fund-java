@@ -70,12 +70,11 @@ public class MainTP3 {
         String nome, materia;
         int idade;
        
-        System.out.println("Insira o nome do professor: ");
-        nome = scan.nextLine();
+        nome = insereNome();
         System.out.println("Insira a idade do professor: ");
         idade = scan.nextInt();
         System.out.println("Insira a materia do professor: ");
-        materia = scan.next();
+        materia = insereSituacao(scan.next());
         
         Professor professor = new Professor(nome, idade, materia);
         pessoas[cont] = professor;
@@ -89,12 +88,11 @@ public class MainTP3 {
         String nome, matricula;
         int idade;
        
-        System.out.println("Insira o nome do aluno: ");
-        nome = scan.nextLine();
+        nome = insereNome();
         System.out.println("Insira a idade do aluno: ");
         idade = scan.nextInt();
         System.out.println("Insira a matricula do aluno: ");
-        matricula = scan.next();
+        matricula = insereSituacao(scan.next());
         
         Pessoa aluno = new Aluno(nome, idade, matricula);
         pessoas[cont] = aluno;
@@ -113,5 +111,26 @@ public class MainTP3 {
                 System.out.println("Professor:\n" + pessoas[i]);
             }
         }
+    }
+    
+    public static String insereNome(){
+        Scanner scan = new Scanner(System.in);
+        String nome, divisoes[];
+        
+        do {
+            System.out.println("Insira o nome e sobrenome: ");
+            nome = scan.nextLine();
+            
+            divisoes = nome.split(" ");
+
+        } while(divisoes.length != 2);
+
+        return nome;
+    }
+    
+    public static String insereSituacao(String situacao){
+        situacao = situacao.substring(0, 1).toUpperCase() + situacao.substring(1);
+        
+        return situacao;
     }
 }
