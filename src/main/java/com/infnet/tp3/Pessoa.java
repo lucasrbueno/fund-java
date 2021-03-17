@@ -27,9 +27,8 @@ public abstract class Pessoa {
 
     @Override
     public String toString() {
-        String[] divisoes;
+        String[] divisoes = nome.split(" ");
         StringBuilder nomeCompleto = new StringBuilder();
-        divisoes = nome.split(" ");
         
         nome = nomeCompleto.append(divisoes[1].toUpperCase())
                     .append(", ")
