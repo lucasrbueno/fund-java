@@ -2,11 +2,12 @@ package com.infnet.AT;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainAT {
     private static Scanner scan;
-    private static ArrayList<Contas> contas;
+    private static List<Contas> contas;	
     
     public static void main(String[] args) {
         escolha();
@@ -14,6 +15,7 @@ public class MainAT {
     
     public static void escolha(){
         scan = new Scanner(System.in);
+        contas = new ArrayList<>();	
         int conta = 0;
         int escolha;
 
@@ -94,7 +96,7 @@ public class MainAT {
             
             contas.add(pf);
             
-        } else {
+        } else if (conta == 2){
             contaNumero = conta;
             nomeEmpresa = insereNome();
             cpf = scan.next();
@@ -111,9 +113,12 @@ public class MainAT {
             System.out.println("Listagem geral de Contas:");
             for(Contas c : contas) {
 
-                String tipo = c instanceof PF ? "1" : "2";
-
-                System.out.println(tipo + " - " + c);
+                if(c instanceof PF){
+                    System.out.println("--------------------------------------------");
+                    System.out.println("PF:\n" + c);
+                } else {
+                    System.out.println("PJ:\n" + c);
+                }
             }
         } else {
             System.out.println("Nenhuma conta cadastrado!");
