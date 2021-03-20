@@ -15,7 +15,7 @@ public class MainAT {
     
     public static void escolha(){
         scan = new Scanner(System.in);
-        contas = new ArrayList<>();	
+        contas = new ArrayList<>(2);	
         int conta = 0;
         int escolha;
 
@@ -31,16 +31,18 @@ public class MainAT {
 //                cont = cadastrarAluno(pessoas, cont);
                 break;
             case 3:
-                relatoriosGerenciais();
+                removerConta();
 //                consultarSituacao(pessoas, cont);
                 break; 
             case 4:
-                
+                relatoriosGerenciais();
                 break;
             default:
                 System.out.println("Opção inválida, escolha outra opção.");
                 break;
-            }       
+            }
+           
+           System.out.println(contas.size());
            
            escolha = menu();
         }
@@ -117,6 +119,7 @@ public class MainAT {
                     System.out.println("--------------------------------------------");
                     System.out.println("PF:\n" + c);
                 } else {
+                    System.out.println("--------------------------------------------");
                     System.out.println("PJ:\n" + c);
                 }
             }
@@ -138,6 +141,13 @@ public class MainAT {
         } while(divisoes.length != 2);
 
         return nome;
+    }
+    
+    public static void removerConta(){
+        System.out.println("Qual tipo conta você quer apagar? ");
+        int conta = scan.nextInt();
+        
+        contas.remove(conta);
     }
     
 //    public static void existeConta(){
