@@ -105,8 +105,8 @@ public class MainTP3 {
         
         for(int i = 0; i < cont; i++){
             if(pessoas[i] instanceof Aluno){
-            System.out.println("--------------------------------------------");
-            System.out.println("Aluno:\n" + pessoas[i]);
+                System.out.println("--------------------------------------------");
+                System.out.println("Aluno:\n" + pessoas[i]);
             } else {
                 System.out.println("Professor:\n" + pessoas[i]);
             }
