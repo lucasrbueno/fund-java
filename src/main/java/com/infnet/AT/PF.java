@@ -10,7 +10,7 @@ public class PF extends Contas {
         this.nomeDoCorrentista = nomeDoCorrentista;
         this.cpf = cpf;
         this.chequeEspecial = chequeEspecial;
-    }
+    } 
     
     public String getNomeDoCorrentista() {
         return nomeDoCorrentista;
@@ -38,13 +38,13 @@ public class PF extends Contas {
     
     @Override
     public String toString() {
-//        String[] divisoes = nomeDoCorrentista.split(" ");
-//        StringBuilder nomeCompleto = new StringBuilder();
-//        
-//        nomeDoCorrentista = nomeCompleto.append(divisoes[1].toUpperCase())
-//                    .append(", ")
-//                    .append(divisoes[0].substring(0, 1).toUpperCase())
-//                    .append(divisoes[0].substring(1)).toString();
+        String[] divisoes = nomeDoCorrentista.split(" ");
+        StringBuilder nomeCompleto = new StringBuilder();
+        
+        nomeDoCorrentista = nomeCompleto.append(divisoes[1].toUpperCase())
+                    .append(", ")
+                    .append(divisoes[0].substring(0, 1).toUpperCase())
+                    .append(divisoes[0].substring(1)).toString();
         
         return super.toString() + "\nNome: " + nomeDoCorrentista + "\nCPF: " + cpf + "\nCheque Especial: " + chequeEspecial;
     }

@@ -7,48 +7,43 @@ import java.util.Scanner;
 
 public class MainAT {
     private static Scanner scan;
-    private static List<Contas> contas;	
+    private static List<Contas> contas;
     
     public static void main(String[] args) {
-        escolha();
+        escolhaMenuOriginal();
     }
     
-    public static void escolha(){
+    public static void escolhaMenuOriginal(){
         scan = new Scanner(System.in);
-        contas = new ArrayList<>(2);	
-        int conta = 0;
+        contas = new ArrayList<>();
         int escolha;
 
-        escolha = menu();
+        escolha = menuOriginal();
 
         while(escolha != 5){
            switch (escolha) {
             case 1:
                 incluirConta();
-//                cont = cadastrarProfessor(pessoas, cont);
                 break;
             case 2:
-//                cont = cadastrarAluno(pessoas, cont);
+//                alterarSaldo();
                 break;
             case 3:
                 removerConta();
-//                consultarSituacao(pessoas, cont);
                 break; 
             case 4:
-                relatoriosGerenciais();
+                menuRelatório();
                 break;
             default:
                 System.out.println("Opção inválida, escolha outra opção.");
                 break;
             }
-           
-           System.out.println(contas.size());
-           
-           escolha = menu();
+
+           escolha = menuOriginal();
         }
     }
     
-    public static int menu(){
+    public static int menuOriginal(){
         int escolha = 0;
         boolean bool = false;
         
@@ -77,44 +72,54 @@ public class MainAT {
     }
     
     private static void incluirConta(){
-        System.out.println("Escolha seu tipo de conta");
-        int conta = scan.nextInt();
-        
-        String nomeCorrentista, cpf, chequeEspecial, nomeEmpresa;
+        String nomeCorrentista, cpf, cnpj, chequeEspecial, nomeEmpresa;
         int contaNumero;
-        Float saldo;
+        float saldo;
         
-        if(conta == 1){
-            contaNumero = conta;
-            nomeCorrentista = insereNome();
-            System.out.println("CPF do correntista ");
-            cpf = scan.next();
-            System.out.println("Correntista está em Cheque Especial?");
-            chequeEspecial = scan.next();
-            System.out.println("Saldo do correntista: ");
-            saldo = scan.nextFloat();
-            
-            PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
-            
-            contas.add(pf);
-            
-        } else if (conta == 2){
-            contaNumero = conta;
-            nomeEmpresa = insereNome();
-            cpf = scan.next();
-            saldo = scan.nextFloat();
-            
-            PJ pj = new PJ(contaNumero, nomeEmpresa, cpf, saldo);
-            
-            contas.add(pj);
+        if(contas.size() < 2){
+            System.out.println("Escolha seu tipo de conta\n[1] Pessoa Física\n[2] Pessoa Jurídica");
+            int conta = scan.nextInt();
+            int cont = 0;
+
+            if(conta == 1){
+
+                contaNumero = conta;
+                nomeCorrentista = insereNome();
+                System.out.println("CPF do correntista ");
+                cpf = scan.next();
+                System.out.println("Correntista está em Cheque Especial?");
+                chequeEspecial = scan.next();
+                System.out.println("Saldo do correntista: ");
+                saldo = scan.nextFloat();
+
+                PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
+
+                contas.add(pf);
+
+                cont++;
+
+            } else if (conta == 2){
+                contaNumero = conta;
+                System.out.println("Nome da Empresa: ");
+                nomeEmpresa = insereNome();
+                System.out.println("CNPJ da Empresa: ");
+                cnpj = scan.next();
+                System.out.println("Saldo da conta: ");
+                saldo = scan.nextFloat();
+
+                PJ pj = new PJ(contaNumero, nomeEmpresa, cnpj, saldo);
+
+                contas.add(pj);
+            }
+        } else {
+            System.out.println("Não é permitido criar mais contas");
         }
     }
     
-    public static void relatoriosGerenciais(){
+    public static void listagemDeContas(){
         if(contas.size() > 0) {
             System.out.println("Listagem geral de Contas:");
             for(Contas c : contas) {
-
                 if(c instanceof PF){
                     System.out.println("--------------------------------------------");
                     System.out.println("PF:\n" + c);
@@ -124,7 +129,7 @@ public class MainAT {
                 }
             }
         } else {
-            System.out.println("Nenhuma conta cadastrado!");
+            System.out.println("Nenhuma conta cadastrada!");
         }
     }
     
@@ -133,7 +138,7 @@ public class MainAT {
         String nome, divisoes[];
         
         do {
-            System.out.println("Insira nome de correntista ou de Empresa: ");
+            System.out.println("Insira nome do correntista");
             nome = scan.nextLine();
             
             divisoes = nome.split(" ");
@@ -144,13 +149,81 @@ public class MainAT {
     }
     
     public static void removerConta(){
-        System.out.println("Qual tipo conta você quer apagar? ");
-        int conta = scan.nextInt();
-        
-        contas.remove(conta);
+         
+        if(contas.size() > 0) {
+            System.out.println("Qual tipo conta você quer apagar? ");
+            int conta = scan.nextInt();
+            
+            for(Contas c : contas) {
+
+                if(c instanceof PF){
+                   contas.remove(c);
+                } else if(c instanceof PJ){
+                    contas.remove(c);
+                }  
+            }
+        } else {
+            System.out.println("Nenhuma conta cadastrada para ser removida.");
+        }
     }
     
-//    public static void existeConta(){
-//        
-//    }
+    public static int menuRelatório(){
+        int escolha = 0;
+        boolean bool = false;
+        
+        do {
+            try {
+                StringBuilder menu = new StringBuilder();
+                menu.append("--------------------------------------------")
+                        .append("\n[1] Listar Clientes com saldo negativo")
+                        .append("\n[2] Listar Clientes com saldo acima de 50 reais")
+                        .append("\n[3] Listar todas as contas")
+                        .append("\n[4] Listar operações feitas nas contas")
+                        .append("\n[5] Voltar")
+                        .append("\nQual opção deseja?");        
+                System.out.println(menu);
+                escolha = scan.nextInt();
+                bool = true;
+            }
+            catch (InputMismatchException ex) {
+                System.out.println("Se atenha aos números, por favor");
+            } finally {
+                scan.nextLine();
+            }
+        } while (!bool);
+
+        return escolha;
+    }
+    
+    public static void escolhaMenuRelatorio(){
+        scan = new Scanner(System.in);
+        contas = new ArrayList<>();
+        int escolha;
+
+        escolha = menuRelatório();
+
+        while(escolha != 5){
+           switch (escolha) {
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+                listagemDeContas();
+                
+                break; 
+            case 4:
+                
+                break;
+            default:
+                System.out.println("Opção inválida, escolha outra opção.");
+                break;
+            }
+
+           escolha = menuRelatório();
+        }
+    }
+    
 }

@@ -31,12 +31,12 @@ public class PJ extends Contas{
         String[] divisoes = nomeDaEmpresa.split(" ");
         StringBuilder nomeCompleto = new StringBuilder();
         
-        nomeDaEmpresa = nomeCompleto.append(divisoes[1].toUpperCase())
-                    .append(", ")
-                    .append(divisoes[0].substring(0, 1).toUpperCase())
-                    .append(divisoes[0].substring(1)).toString();
-        
-        return super.toString() + "\nNome da empresa: " + nomeDaEmpresa + "\nCNPJ: " + cnpj  ; //To change body of generated methods, choose Tools | Templates.
+        nomeDaEmpresa = nomeCompleto.append(divisoes[0].substring(0, 1).toUpperCase())
+                    .append(divisoes[0].substring(1))
+                    .append(divisoes[1].substring(0, 1).toUpperCase())
+                    .append(divisoes[1].substring(1)).toString();
+
+        return super.toString() + "\nNome da empresa: " + nomeDaEmpresa + "\nCNPJ: " + cnpj;
     }
     
     
