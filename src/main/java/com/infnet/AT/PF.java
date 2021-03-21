@@ -48,6 +48,4 @@ public class PF extends Contas {
         
         return super.toString() + "\nNome: " + nomeDoCorrentista + "\nCPF: " + cpf + "\nCheque Especial: " + chequeEspecial;
     }
-    
-    
 }

@@ -26,13 +26,13 @@ public class MainAT {
                 incluirConta();
                 break;
             case 2:
-//                alterarSaldo();
+                alterarSaldo();
                 break;
             case 3:
                 removerConta();
                 break; 
             case 4:
-                menuRelatório();
+                escolhaMenuRelatorio();
                 break;
             default:
                 System.out.println("Opção inválida, escolha outra opção.");
@@ -78,8 +78,7 @@ public class MainAT {
         
         if(contas.size() < 2){
             System.out.println("Escolha seu tipo de conta\n[1] Pessoa Física\n[2] Pessoa Jurídica");
-            int conta = scan.nextInt();
-            int cont = 0;
+            int conta = scan.nextInt();       
 
             if(conta == 1){
 
@@ -96,7 +95,7 @@ public class MainAT {
 
                 contas.add(pf);
 
-                cont++;
+//               cont++;
 
             } else if (conta == 2){
                 contaNumero = conta;
@@ -155,7 +154,6 @@ public class MainAT {
             int conta = scan.nextInt();
             
             for(Contas c : contas) {
-
                 if(c instanceof PF){
                    contas.remove(c);
                 } else if(c instanceof PJ){
@@ -197,7 +195,6 @@ public class MainAT {
     
     public static void escolhaMenuRelatorio(){
         scan = new Scanner(System.in);
-        contas = new ArrayList<>();
         int escolha;
 
         escolha = menuRelatório();
@@ -212,7 +209,6 @@ public class MainAT {
                 break;
             case 3:
                 listagemDeContas();
-                
                 break; 
             case 4:
                 
@@ -226,4 +222,22 @@ public class MainAT {
         }
     }
     
+    public static void alterarSaldo(){
+        float saldo = 0;
+        
+        if(contas.size() > 0) {
+            System.out.println("Quanto de saldo deseja alterar? ");
+
+            for(Contas c : contas) {
+                if(c instanceof PF){
+                   saldo = scan.nextFloat();
+                } else if(c instanceof PJ){
+                    conta.getSaldo();
+                }  
+            }
+        } else {
+            System.out.println("Nenhuma conta cadastrada para ter alteração de saldo.");
+        }
+        
+    }
 }
