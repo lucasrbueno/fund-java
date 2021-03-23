@@ -1,14 +1,18 @@
 package com.infnet.AT;
 
 public abstract class Contas {
-    private int numeroDaConta;
-    private float saldo;
+    protected int numeroDaConta;
+    protected float saldo;
 
     public Contas(int numeroDaConta, float saldo) {
         this.numeroDaConta = numeroDaConta;
         this.saldo = saldo;
     }
- 
+    
+    public Contas(float saldo) {
+        this.saldo = saldo;
+    }
+    
     public int getNumeroDaConta() {
         return numeroDaConta;
     }
@@ -23,6 +27,14 @@ public abstract class Contas {
 
     public void setSaldo(float saldo) {
         this.saldo = saldo;
+    }
+    
+    public void credito(float valor){
+        saldo += valor;
+    }
+    
+    public void debito(float valor){
+        saldo -= valor;
     }
 
     @Override

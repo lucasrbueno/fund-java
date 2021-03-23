@@ -33,6 +33,7 @@ public class PJ extends Contas{
         
         nomeDaEmpresa = nomeCompleto.append(divisoes[0].substring(0, 1).toUpperCase())
                     .append(divisoes[0].substring(1))
+                    .append(" ")
                     .append(divisoes[1].substring(0, 1).toUpperCase())
                     .append(divisoes[1].substring(1)).toString();
 

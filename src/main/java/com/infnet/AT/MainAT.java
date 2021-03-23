@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class MainAT {
     private static Scanner scan;
-    private static List<Contas> contas;
+    private static final List<Contas> contas = new ArrayList<>();
     
     public static void main(String[] args) {
         escolhaMenuOriginal();
@@ -15,7 +15,6 @@ public class MainAT {
     
     public static void escolhaMenuOriginal(){
         scan = new Scanner(System.in);
-        contas = new ArrayList<>();
         int escolha;
 
         escolha = menuOriginal();
@@ -223,21 +222,26 @@ public class MainAT {
     }
     
     public static void alterarSaldo(){
+        String nomeCorrentista = "", cpf = "", cnpj = "", chequeEspecial = "";
+        int contaNumero = 0;
         float saldo = 0;
         
-        if(contas.size() > 0) {
-            System.out.println("Quanto de saldo deseja alterar? ");
+//        PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
+          PF pf = new PF(saldo);
 
+        if(contas.size() > 0) {
+            System.out.println("Quanto de saldo quer creditar? ");
+            
             for(Contas c : contas) {
                 if(c instanceof PF){
-                   saldo = scan.nextFloat();
+//                   saldo = scan.nextFloat();
+                   pf.credito(200);
                 } else if(c instanceof PJ){
-                    conta.getSaldo();
+//                    pf.getSaldo();
                 }  
             }
         } else {
             System.out.println("Nenhuma conta cadastrada para ter alteração de saldo.");
         }
-        
     }
 }

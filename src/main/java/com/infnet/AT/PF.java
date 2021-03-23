@@ -12,6 +12,10 @@ public class PF extends Contas {
         this.chequeEspecial = chequeEspecial;
     } 
     
+    public PF(float saldo){
+        super(saldo);
+    }
+    
     public String getNomeDoCorrentista() {
         return nomeDoCorrentista;
     }
@@ -41,10 +45,11 @@ public class PF extends Contas {
         String[] divisoes = nomeDoCorrentista.split(" ");
         StringBuilder nomeCompleto = new StringBuilder();
         
-        nomeDoCorrentista = nomeCompleto.append(divisoes[1].toUpperCase())
-                    .append(", ")
-                    .append(divisoes[0].substring(0, 1).toUpperCase())
-                    .append(divisoes[0].substring(1)).toString();
+        nomeDoCorrentista = nomeCompleto.append(divisoes[0].substring(0, 1).toUpperCase())
+                    .append(divisoes[0].substring(1))
+                    .append(" ")
+                    .append(divisoes[1].substring(0, 1).toUpperCase())
+                    .append(divisoes[1].substring(1)).toString();
         
         return super.toString() + "\nNome: " + nomeDoCorrentista + "\nCPF: " + cpf + "\nCheque Especial: " + chequeEspecial;
     }
