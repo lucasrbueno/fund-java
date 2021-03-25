@@ -3,17 +3,18 @@ package com.infnet.AT;
 public class PF extends Contas {
     public String nomeDoCorrentista;
     public String cpf;
-    public String chequeEspecial;
+    public float chequeEspecial;
 
-    public PF(int numeroDaConta, String nomeDoCorrentista, String cpf, String chequeEspecial, float saldo) {
+    public PF(int numeroDaConta, String nomeDoCorrentista, String cpf, float chequeEspecial, float saldo) {
         super(numeroDaConta, saldo);
         this.nomeDoCorrentista = nomeDoCorrentista;
         this.cpf = cpf;
         this.chequeEspecial = chequeEspecial;
     } 
     
-    public PF(float saldo){
-        super(saldo);
+    
+    public void debito(){
+        chequeEspecial -= saldo;
     }
     
     public String getNomeDoCorrentista() {
@@ -32,11 +33,11 @@ public class PF extends Contas {
         this.cpf = cpf;
     }
 
-    public String getChequeEspecial() {
+    public float getChequeEspecial() {
         return chequeEspecial;
     }
 
-    public void setChequeEspecial(String chequeEspecial) {
+    public void setChequeEspecial(float chequeEspecial) {
         this.chequeEspecial = chequeEspecial;
     }
     

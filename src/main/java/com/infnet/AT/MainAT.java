@@ -2,15 +2,14 @@ package com.infnet.AT;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class MainAT {
     private static Scanner scan;
-    private static final List<Contas> contas = new ArrayList<>();
+    private static final ArrayList<Contas> contas = new ArrayList<>();
     
     public static void main(String[] args) {
-        escolhaMenuOriginal();
+        escolhaMenuOriginal();       
     }
     
     public static void escolhaMenuOriginal(){
@@ -22,10 +21,10 @@ public class MainAT {
         while(escolha != 5){
            switch (escolha) {
             case 1:
-                incluirConta();
+                incluirConta(contas);
                 break;
             case 2:
-                alterarSaldo();
+                alterarSaldo(contas);
                 break;
             case 3:
                 removerConta();
@@ -70,51 +69,28 @@ public class MainAT {
         return escolha;
     }
     
-    private static void incluirConta(){
-        String nomeCorrentista, cpf, cnpj, chequeEspecial, nomeEmpresa;
-        int contaNumero;
-        float saldo;
+    private static void incluirConta(ArrayList<Contas> contas){
+
+        System.out.println("Escolha seu tipo de conta\n[1] Pessoa Física\n[2] Pessoa Jurídica");
+        int conta = scan.nextInt(); 
+        boolean existe = pesquisaConta(contas, conta);
         
-        if(contas.size() < 2){
-            System.out.println("Escolha seu tipo de conta\n[1] Pessoa Física\n[2] Pessoa Jurídica");
-            int conta = scan.nextInt();       
-
-            if(conta == 1){
-
-                contaNumero = conta;
-                nomeCorrentista = insereNome();
-                System.out.println("CPF do correntista ");
-                cpf = scan.next();
-                System.out.println("Correntista está em Cheque Especial?");
-                chequeEspecial = scan.next();
-                System.out.println("Saldo do correntista: ");
-                saldo = scan.nextFloat();
-
-                PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
-
-                contas.add(pf);
-
-//               cont++;
-
-            } else if (conta == 2){
-                contaNumero = conta;
-                System.out.println("Nome da Empresa: ");
-                nomeEmpresa = insereNome();
-                System.out.println("CNPJ da Empresa: ");
-                cnpj = scan.next();
-                System.out.println("Saldo da conta: ");
-                saldo = scan.nextFloat();
-
-                PJ pj = new PJ(contaNumero, nomeEmpresa, cnpj, saldo);
-
-                contas.add(pj);
-            }
-        } else {
+        if(conta == 1){
+            if(existe){
             System.out.println("Não é permitido criar mais contas");
-        }
+            } else {
+                pf(conta);
+            } 
+        } else if(conta == 2){
+            if(existe){
+            System.out.println("Não é permitido criar mais contas");
+            } else {
+                pj(conta);
+            } 
+        } 
     }
     
-    public static void listagemDeContas(){
+    public static void listagemDeContas(ArrayList<Contas> contas){
         if(contas.size() > 0) {
             System.out.println("Listagem geral de Contas:");
             for(Contas c : contas) {
@@ -136,7 +112,6 @@ public class MainAT {
         String nome, divisoes[];
         
         do {
-            System.out.println("Insira nome do correntista");
             nome = scan.nextLine();
             
             divisoes = nome.split(" ");
@@ -207,7 +182,7 @@ public class MainAT {
 
                 break;
             case 3:
-                listagemDeContas();
+                listagemDeContas(contas);
                 break; 
             case 4:
                 
@@ -221,27 +196,81 @@ public class MainAT {
         }
     }
     
-    public static void alterarSaldo(){
-        String nomeCorrentista = "", cpf = "", cnpj = "", chequeEspecial = "";
-        int contaNumero = 0;
-        float saldo = 0;
+    public static void alterarSaldo(ArrayList<Contas> contas){
         
-//        PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
-          PF pf = new PF(saldo);
+        int escolha;
 
         if(contas.size() > 0) {
-            System.out.println("Quanto de saldo quer creditar? ");
-            
             for(Contas c : contas) {
                 if(c instanceof PF){
-//                   saldo = scan.nextFloat();
-                   pf.credito(200);
+                    escolha = scan.nextInt();
+                    
+                    if(escolha == 1){
+                        System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
+                        float saldo = scan.nextFloat();
+                        c.credito(saldo);
+                    } else if(escolha == 2){
+//                        c.debito();
+                        System.out.println("sme ebitro");
+                    }
                 } else if(c instanceof PJ){
-//                    pf.getSaldo();
+                    System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica?? ");
+                    float saldo = scan.nextFloat();
+                    c.credito(saldo);
                 }  
             }
         } else {
             System.out.println("Nenhuma conta cadastrada para ter alteração de saldo.");
         }
+    }
+    
+    public static void pf(int conta){
+        String nomeCorrentista, cpf, cnpj, nomeEmpresa;
+        int contaNumero;
+        float saldo, chequeEspecial;
+        
+        contaNumero = conta;
+        System.out.println("Insira nome do correntista");
+        nomeCorrentista = insereNome();
+        System.out.println("CPF do correntista: ");
+        cpf = scan.next();
+        System.out.println("Cheque Especial do correntista: ");
+        chequeEspecial = scan.nextFloat();
+        System.out.println("Saldo do correntista: ");
+        saldo = scan.nextFloat();
+
+        PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
+
+        contas.add(pf);
+    }
+    
+    public static void pj(int conta){
+        String cnpj, nomeEmpresa;
+        int contaNumero;
+        float saldo;
+        
+        contaNumero = conta;
+        System.out.println("Nome da Empresa: ");
+        nomeEmpresa = insereNome();
+        System.out.println("CNPJ da Empresa: ");
+        cnpj = scan.next();
+        System.out.println("Saldo da conta: ");
+        saldo = scan.nextFloat();
+
+        PJ pj = new PJ(contaNumero, nomeEmpresa, cnpj, saldo);
+
+        contas.add(pj);
+    }
+    
+    public static boolean pesquisaConta(ArrayList<Contas> contas, int opcao){
+        boolean existe = false;
+        
+        for(Contas c : contas) {
+                if(c.getNumeroDaConta() == opcao){
+                    existe = true;
+                    break;
+                } 
+            }
+       return existe; 
     }
 }

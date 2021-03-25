@@ -32,10 +32,6 @@ public abstract class Contas {
     public void credito(float valor){
         saldo += valor;
     }
-    
-    public void debito(float valor){
-        saldo -= valor;
-    }
 
     @Override
     public String toString() {
