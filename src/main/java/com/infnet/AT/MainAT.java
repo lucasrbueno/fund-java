@@ -125,11 +125,12 @@ public class MainAT {
          
         if(contas.size() > 0) {
             System.out.println("Qual tipo conta você quer apagar? ");
-            int conta = scan.nextInt();
+//            int escolha = scan.nextInt();
             
             for(Contas c : contas) {
                 if(c instanceof PF){
-                   contas.remove(c);
+                    contas.remove(c);
+//                   contas.removeIf(escolha -> escolha.equals(1));
                 } else if(c instanceof PJ){
                     contas.remove(c);
                 }  
@@ -198,26 +199,55 @@ public class MainAT {
     
     public static void alterarSaldo(ArrayList<Contas> contas){
         
-        int escolha;
+        int escolha1, escolha2, contaEscolha;
+        float saldo;
 
         if(contas.size() > 0) {
             for(Contas c : contas) {
-                if(c instanceof PF){
-                    escolha = scan.nextInt();
-                    
-                    if(escolha == 1){
-                        System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
-                        float saldo = scan.nextFloat();
-                        c.credito(saldo);
-                    } else if(escolha == 2){
-//                        c.debito();
-                        System.out.println("sme ebitro");
-                    }
-                } else if(c instanceof PJ){
-                    System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica?? ");
-                    float saldo = scan.nextFloat();
-                    c.credito(saldo);
-                }  
+                System.out.println("Qual tipo de conta? \n[1] Pessoa Física \n[2] Pessoa Jurídica");
+                contaEscolha = scan.nextInt();
+                
+                switch (contaEscolha) {
+                    case 1:
+                        System.out.println("PESSOA FÍSICA");
+                        System.out.println("Quer: \n[1] Crédito \n[2] Débito");
+                        escolha1 = scan.nextInt();
+                        if(escolha1 == 1){
+                            if(c instanceof PF){
+                                System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
+                                saldo = scan.nextFloat();
+                                c.credito(saldo);
+                            }
+                        } else if (escolha1 == 2){
+                            if(c instanceof PF){
+                                System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
+                                saldo = scan.nextFloat();
+                                c.debito(saldo);
+                            }
+                        }   
+                        break;
+                    case 2:
+                        System.out.println("PESSOA JURÍDICA");
+                        System.out.println("Quer: \n[1] Crédito \n[2] Débito");
+                        escolha2 = scan.nextInt();
+                        if(escolha2 == 1){
+                            if(c instanceof PJ){
+                                System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica? ");
+                                saldo = scan.nextFloat();
+                                c.credito(saldo);
+                            }
+                        } else if (escolha2 == 2){
+                            if(c instanceof PJ){
+                                System.out.println("Quanto de saldo quer debitar na conta de Pessoa Jurídica? ");
+                                saldo = scan.nextFloat();
+                                c.debito(saldo);
+                            }
+                        }   
+                        break;
+                    default:
+                        System.out.println("Nenhuma conta cadastrada com esse número para ter alteração de saldo.");
+                        break;
+                }
             }
         } else {
             System.out.println("Nenhuma conta cadastrada para ter alteração de saldo.");
@@ -225,7 +255,7 @@ public class MainAT {
     }
     
     public static void pf(int conta){
-        String nomeCorrentista, cpf, cnpj, nomeEmpresa;
+        String nomeCorrentista, cpf;
         int contaNumero;
         float saldo, chequeEspecial;
         
@@ -272,5 +302,35 @@ public class MainAT {
                 } 
             }
        return existe; 
+    }
+    
+    public static void clienteNegativo(){
+        float saldo;
+        
+        if(contas.size() > 0) {
+            System.out.println("Listagem geral de Contas:");
+            for(Contas c : contas) {
+                saldo = c.getSaldo();
+                if(c instanceof PF){
+                    if(saldo < 0){
+                        System.out.println(saldo);
+                    } else {
+                        System.out.println("Conta de pessoa física não está negativa");
+                    }
+                } else {
+                    if(saldo < 0){
+                        System.out.println(saldo);
+                    } else {
+                        System.out.println("Conta de pessoa jurídica não está negativa");
+                    }
+                }
+            }
+        } else {
+            System.out.println("Nenhuma conta cadastrada!");
+        }
+    }
+    
+    public static void clienteAcima(){
+        
     }
 }

@@ -12,11 +12,6 @@ public class PF extends Contas {
         this.chequeEspecial = chequeEspecial;
     } 
     
-    
-    public void debito(){
-        chequeEspecial -= saldo;
-    }
-    
     public String getNomeDoCorrentista() {
         return nomeDoCorrentista;
     }
