@@ -145,19 +145,24 @@ public class MainAT {
     }
     
     public static void removerConta(){
+        float saldo = 0;
          
         if(contas.size() > 0) {
-            System.out.println("Qual tipo conta você quer apagar? ");
-//            int escolha = scan.nextInt();
-            
-            for(Contas c : contas) {
-                if(c instanceof PF){
-                    contas.remove(c);
-//                   contas.removeIf(escolha -> escolha.equals(1));
-                } else if(c instanceof PJ){
-                    contas.remove(c);
-                }  
-            }
+            for(Contas c: contas){
+                System.out.println("Qual conta você quer apagar? \n[1] Primeira conta \n[2] Segunda conta");
+                int escolha = scan.nextInt();
+                
+                if(c.getSaldo() == 0){
+                   if(escolha < 3){
+                        contas.remove(escolha - 1);
+                    } else {
+                        System.out.println("Número inválido");
+                    }
+                }
+                
+
+
+                }     
         } else {
             System.out.println("Nenhuma conta cadastrada para ser removida.");
         }
@@ -238,16 +243,21 @@ public class MainAT {
                         escolha1 = scan.nextInt();
                         if(escolha1 == 1){
                             if(c instanceof PF){
+
                                 System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
                                 saldo = scan.nextFloat();
                                 c.credito(saldo);
+  
                             }
                         } else if (escolha1 == 2){
                             if(c instanceof PF){
-                                System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
-                                saldo = scan.nextFloat();
-                                c.debito(saldo);
-                                scan.nextLine();
+                               if(c.getSaldo() + ((PF) c).getChequeEspecial() == 0.0){
+                                    System.out.println("Saldo insuficiente para débito");
+                                } else{
+                                    System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
+                                    saldo = scan.nextFloat();
+                                    c.debito(saldo);
+                                }
                             }
                         }                       
                         break;
@@ -263,9 +273,13 @@ public class MainAT {
                             }
                         } else if (escolha2 == 2){
                             if(c instanceof PJ){
-                                System.out.println("Quanto de saldo quer debitar na conta de Pessoa Jurídica? ");
-                                saldo = scan.nextFloat();
-                                c.debito(saldo);
+                                if(c.getSaldo() < 0){
+                                    System.out.println("Saldo insuficiente para débito");
+                                } else{
+                                    System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
+                                    saldo = scan.nextFloat();
+                                    c.debito(saldo);
+                                }
                             }
                         }
                         break;
