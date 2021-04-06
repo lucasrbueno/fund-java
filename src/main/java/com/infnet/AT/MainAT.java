@@ -200,10 +200,10 @@ public class MainAT {
         while(escolha != 5){
            switch (escolha) {
             case 1:
-
+                clienteNegativo();
                 break;
             case 2:
-
+                clienteAcima();
                 break;
             case 3:
                 listagemDeContas(contas);
@@ -333,18 +333,22 @@ public class MainAT {
         float saldo;
         
         if(contas.size() > 0) {
-            System.out.println("Listagem geral de Contas:");
+            System.out.println("Listagem de contas negativadas:");
             for(Contas c : contas) {
-                saldo = c.getSaldo();
+                
                 if(c instanceof PF){
+                    saldo = c.getSaldo() + ((PF) c).getChequeEspecial();
                     if(saldo < 0){
-                        System.out.println(saldo);
+                        System.out.println("--------------------------------------------");
+                        System.out.println("PF:\n" + c);
                     } else {
                         System.out.println("Conta de pessoa física não está negativa");
                     }
-                } else {
+                } else if(c instanceof PJ) {
+                    saldo = c.getSaldo();
                     if(saldo < 0){
-                        System.out.println(saldo);
+                        System.out.println("--------------------------------------------");
+                        System.out.println("PF:\n" + c);
                     } else {
                         System.out.println("Conta de pessoa jurídica não está negativa");
                     }
@@ -356,12 +360,40 @@ public class MainAT {
     }
     
     public static void clienteAcima(){
+        float saldo;
         
+        if(contas.size() > 0) {
+            System.out.println("Listagem de contas acima de um valor previsto:");
+            for(Contas c : contas) {
+                
+                if(c instanceof PF){
+                    saldo = c.getSaldo() + ((PF) c).getChequeEspecial();
+                    if(saldo > 100){
+                        System.out.println(saldo);
+                    } else {
+                        System.out.println("Conta de pessoa física está abaixo de 100 reais de saldo");
+                    }
+                } else if(c instanceof PJ) {
+                    saldo = c.getSaldo();
+                    if(saldo > 100){
+                        System.out.println(saldo);
+                    } else {
+                        System.out.println("Conta de pessoa jurídica está abaixo de 100 reais de saldo");
+                    }
+                }
+            }
+        } else {
+            System.out.println("Nenhuma conta cadastrada!");
+        }
     }
     
-        public static void mostraContas(ArrayList<Contas> contas) {  
-        for (Contas c: contas) {
-            System.out.println(c);
-        }
+    public static void mostraContas(ArrayList<Contas> contas) {  
+            for (Contas c: contas) {
+                System.out.println(c);
+            }
+    }
+    
+    public static void operacoesFeitas(){
+        
     }
 }

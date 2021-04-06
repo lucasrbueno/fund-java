@@ -51,11 +51,11 @@ public class ContasArquivo {
             String linha;
             String[] campos;
             while(entrada.hasNext()) {
-                linha = entrada.nextLine();
-                campos = linha.split(";");
-                conta.setNumeroDaConta(Integer.valueOf(campos[0]));
-                aluno.setNota(Integer.parseInt(campos[1]));
-                alunos.add(aluno);      
+//                linha = entrada.nextLine();
+//                campos = linha.split(";");
+//                conta.setNumeroDaConta(Integer.valueOf(campos[0]));
+//                aluno.setNota(Integer.parseInt(campos[1]));
+//                alunos.add(aluno);      
             }
         }
         catch (NoSuchElementException erro) {
@@ -72,11 +72,11 @@ public class ContasArquivo {
             
             System.out.println(conta.get(i));
             
-            System.out.println(conta instanceof PF);    
+//            System.out.println(conta instanceof PF);    
             
             
             try {
-                saida.format("%s;%d\n", conta.get(i).getNome(), conta.get(i).getNota());
+//                saida.format("%s;%d\n", conta.get(i).getNome(), conta.get(i).getNota());
             }
             catch (FormatterClosedException erro) {
                 System.err.println("Erro: gravação no arquivo" );
