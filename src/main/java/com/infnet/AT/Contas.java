@@ -1,8 +1,8 @@
 package com.infnet.AT;
 
 public abstract class Contas {
-    protected int numeroDaConta;
-    protected float saldo;
+    private int numeroDaConta;
+    private float saldo;
 
     public Contas(int numeroDaConta, float saldo) {
         this.numeroDaConta = numeroDaConta;

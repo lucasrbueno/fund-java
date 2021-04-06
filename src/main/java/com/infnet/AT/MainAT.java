@@ -1,14 +1,17 @@
 package com.infnet.AT;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainAT {
     private static Scanner scan;
     private static final ArrayList<Contas> contas = new ArrayList<>();
+    private static final ArrayList<Contas> arquivo = new ArrayList<>();
     
     public static void main(String[] args) {
+        
         escolhaMenuOriginal();       
     }
     
@@ -18,7 +21,7 @@ public class MainAT {
 
         escolha = menuOriginal();
 
-        while(escolha != 5){
+        while(escolha != 6){
            switch (escolha) {
             case 1:
                 incluirConta(contas);
@@ -31,6 +34,26 @@ public class MainAT {
                 break; 
             case 4:
                 escolhaMenuRelatorio();
+                break;
+            case 5:
+                final String nome = "contas.txt";
+                Formatter saida;
+                ContasArquivo.setNome(nome);
+                
+                System.out.println("Lendo arquivo...");
+                scan = ContasArquivo.abreLeitura();
+                if (scan != null) {
+                    ContasArquivo.leArquivo(scan, arquivo);
+                    ContasArquivo.fechaArquivo(scan);
+                    mostraContas(contas);
+                }    
+                
+                System.out.println("Gravando arquivo...");
+                saida = ContasArquivo.abreGravacao();
+                ContasArquivo.gravaContas(saida, arquivo);
+                ContasArquivo.fechaArquivo(saida);
+                
+                escolha = 6;
                 break;
             default:
                 System.out.println("Opção inválida, escolha outra opção.");
@@ -77,13 +100,13 @@ public class MainAT {
         
         if(conta == 1){
             if(existe){
-            System.out.println("Não é permitido criar mais contas");
+            System.out.println("Não é permitido criar mais contas Pessoa Física");
             } else {
                 pf(conta);
             } 
         } else if(conta == 2){
             if(existe){
-            System.out.println("Não é permitido criar mais contas");
+            System.out.println("Não é permitido criar mais contas Pessoa Jurídica");
             } else {
                 pj(conta);
             } 
@@ -202,12 +225,13 @@ public class MainAT {
         int escolha1, escolha2, contaEscolha;
         float saldo;
 
-        if(contas.size() > 0) {
-            for(Contas c : contas) {
+        if(contas.size() > 0) {  
+            for(Contas c : contas){
                 System.out.println("Qual tipo de conta? \n[1] Pessoa Física \n[2] Pessoa Jurídica");
                 contaEscolha = scan.nextInt();
                 
                 switch (contaEscolha) {
+                    
                     case 1:
                         System.out.println("PESSOA FÍSICA");
                         System.out.println("Quer: \n[1] Crédito \n[2] Débito");
@@ -223,8 +247,9 @@ public class MainAT {
                                 System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
                                 saldo = scan.nextFloat();
                                 c.debito(saldo);
+                                scan.nextLine();
                             }
-                        }   
+                        }                       
                         break;
                     case 2:
                         System.out.println("PESSOA JURÍDICA");
@@ -242,7 +267,7 @@ public class MainAT {
                                 saldo = scan.nextFloat();
                                 c.debito(saldo);
                             }
-                        }   
+                        }
                         break;
                     default:
                         System.out.println("Nenhuma conta cadastrada com esse número para ter alteração de saldo.");
@@ -332,5 +357,11 @@ public class MainAT {
     
     public static void clienteAcima(){
         
+    }
+    
+        public static void mostraContas(ArrayList<Contas> contas) {  
+        for (Contas c: contas) {
+            System.out.println(c);
+        }
     }
 }

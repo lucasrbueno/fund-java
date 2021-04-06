@@ -26,9 +26,6 @@ public class PJ extends Contas{
         this.cnpj = cnpj;
     }
     
-    public void debito(float valor){
-        saldo -= valor;
-    }
 
     @Override
     public String toString() {
