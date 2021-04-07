@@ -148,21 +148,16 @@ public class MainAT {
         float saldo = 0;
          
         if(contas.size() > 0) {
-            for(Contas c: contas){
-                System.out.println("Qual conta você quer apagar? \n[1] Primeira conta \n[2] Segunda conta");
-                int escolha = scan.nextInt();
-                
-                if(c.getSaldo() == 0){
-                   if(escolha < 3){
-                        contas.remove(escolha - 1);
-                    } else {
-                        System.out.println("Número inválido");
-                    }
+            System.out.println("Qual conta você quer apagar? \n[1] Primeira conta \n[2] Segunda conta");
+            int escolha = scan.nextInt();
+            
+            for(int i = 0; i < contas.size(); i++){
+                if(escolha == contas.get(i).getNumeroDaConta()){
+                    contas.remove(i);
+                } else{
+                    System.out.println("Não existem contas com o número: " + escolha);
                 }
-                
-
-
-                }     
+            }
         } else {
             System.out.println("Nenhuma conta cadastrada para ser removida.");
         }
@@ -177,7 +172,7 @@ public class MainAT {
                 StringBuilder menu = new StringBuilder();
                 menu.append("--------------------------------------------")
                         .append("\n[1] Listar Clientes com saldo negativo")
-                        .append("\n[2] Listar Clientes com saldo acima de 50 reais")
+                        .append("\n[2] Listar Clientes com saldo acima de 100 reais")
                         .append("\n[3] Listar todas as contas")
                         .append("\n[4] Listar operações feitas nas contas")
                         .append("\n[5] Voltar")
@@ -247,11 +242,10 @@ public class MainAT {
                                 System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
                                 saldo = scan.nextFloat();
                                 c.credito(saldo);
-  
                             }
                         } else if (escolha1 == 2){
                             if(c instanceof PF){
-                               if(c.getSaldo() + ((PF) c).getChequeEspecial() == 0.0){
+                               if(c.getSaldo() + ((PF) c).getChequeEspecial() <= 0 && c.getSaldo() <= 0){
                                     System.out.println("Saldo insuficiente para débito");
                                 } else{
                                     System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
@@ -263,7 +257,7 @@ public class MainAT {
                         break;
                     case 2:
                         System.out.println("PESSOA JURÍDICA");
-                        System.out.println("Quer: \n[1] Crédito \n[2] Débito");
+                        System.out.println("¨Quer: \n[1] Crédito \n[2] Débito");
                         escolha2 = scan.nextInt();
                         if(escolha2 == 1){
                             if(c instanceof PJ){
@@ -273,7 +267,7 @@ public class MainAT {
                             }
                         } else if (escolha2 == 2){
                             if(c instanceof PJ){
-                                if(c.getSaldo() < 0){
+                                if(c.getSaldo() <= 0){
                                     System.out.println("Saldo insuficiente para débito");
                                 } else{
                                     System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
@@ -348,8 +342,7 @@ public class MainAT {
         
         if(contas.size() > 0) {
             System.out.println("Listagem de contas negativadas:");
-            for(Contas c : contas) {
-                
+            for(Contas c : contas) {     
                 if(c instanceof PF){
                     saldo = c.getSaldo() + ((PF) c).getChequeEspecial();
                     if(saldo < 0){
@@ -362,7 +355,7 @@ public class MainAT {
                     saldo = c.getSaldo();
                     if(saldo < 0){
                         System.out.println("--------------------------------------------");
-                        System.out.println("PF:\n" + c);
+                        System.out.println("PJ:\n" + c);
                     } else {
                         System.out.println("Conta de pessoa jurídica não está negativa");
                     }
@@ -383,14 +376,16 @@ public class MainAT {
                 if(c instanceof PF){
                     saldo = c.getSaldo() + ((PF) c).getChequeEspecial();
                     if(saldo > 100){
-                        System.out.println(saldo);
+                        System.out.println("--------------------------------------------");
+                        System.out.println("PF:\n" + c);
                     } else {
                         System.out.println("Conta de pessoa física está abaixo de 100 reais de saldo");
                     }
                 } else if(c instanceof PJ) {
                     saldo = c.getSaldo();
                     if(saldo > 100){
-                        System.out.println(saldo);
+                        System.out.println("--------------------------------------------");
+                        System.out.println("PJ:\n" + c);
                     } else {
                         System.out.println("Conta de pessoa jurídica está abaixo de 100 reais de saldo");
                     }
