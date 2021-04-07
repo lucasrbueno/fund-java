@@ -45,17 +45,34 @@ public class ContasArquivo {
         return saida;
     }    
     
-    public static void leArquivo(Scanner entrada, ArrayList<Contas> conta) {
+    public static void leArquivo(Scanner entrada, ArrayList<Contas> contas) {
+        int contaNumero = 0;
         
         try {
-            String linha;
-            String[] campos;
+            String linha = " ";
+            String[] campos = null;
             while(entrada.hasNext()) {
-//                linha = entrada.nextLine();
-//                campos = linha.split(";");
-//                conta.setNumeroDaConta(Integer.valueOf(campos[0]));
-//                aluno.setNota(Integer.parseInt(campos[1]));
-//                alunos.add(aluno);      
+                if(contaNumero == 1){
+                    campos = linha.split(";");
+                    contaNumero = Integer.parseInt(campos[0]);
+                    float saldo = Float.parseFloat(campos[1]);
+                    String nomeCorrentista = campos[2];
+                    String cpf = campos[3];
+                    float chequeEspecial = Float.parseFloat(campos[4]);
+
+                    PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
+
+                    contas.add(pf);
+                } else {
+                    contaNumero = Integer.parseInt(campos[0]);
+                    float saldo = Float.parseFloat(campos[1]);
+                    String nomeEmpresa = campos[2];
+                    String cnpj = campos[3];
+
+                    PJ pj = new PJ(contaNumero, nomeEmpresa, cnpj, saldo);
+
+                    contas.add(pj);
+                }
             }
         }
         catch (NoSuchElementException erro) {
@@ -66,17 +83,19 @@ public class ContasArquivo {
         }
     }
         
-    public static void gravaContas(Formatter saida, ArrayList<Contas> conta) {
+    public static void gravaContas(Formatter saida, ArrayList<Contas> contas) {
     
-        for (int i = 0; i < conta.size(); i++) {
+        for (int i = 0; i < contas.size(); i++) { 
             
-            System.out.println(conta.get(i));
-            
-//            System.out.println(conta instanceof PF);    
-            
+            System.out.println(contas.get(i));    
             
             try {
-//                saida.format("%s;%d\n", conta.get(i).getNome(), conta.get(i).getNota());
+                if (contas.get(i) instanceof PF){
+                   saida.format("%s;%f,%s,%s,%f\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PF)contas.get(i)).getNomeDoCorrentista(), ((PF)contas.get(i)).getCpf(), ((PF)contas.get(i)).getChequeEspecial());
+                } else {
+                    saida.format("%s;%f,%s,%s,%f\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PJ)contas.get(i)).getNomeDaEmpresa(), ((PJ)contas.get(i)).getCnpj());
+
+                }
             }
             catch (FormatterClosedException erro) {
                 System.err.println("Erro: gravação no arquivo" );
