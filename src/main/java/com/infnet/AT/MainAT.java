@@ -89,14 +89,18 @@ public class MainAT {
     
     private static void incluirConta(ArrayList<Contas> contas){
 
-        System.out.println("Escolha seu tipo de conta\n[1] Pessoa Física\n[2] Pessoa Jurídica");
-//        int tipoConta = scan.nextInt();
-//        System.out.println("Escolha uma conta:");
+//        System.out.println("Escolha seu tipo de conta\n[1] Pessoa Física\n[2] Pessoa Jurídica");
+        System.out.println("Escolha o número da conta");
         int conta = scan.nextInt();
         boolean existe = pesquisaConta(contas, conta);
         
-        if(existe == false){
-            switch (conta){
+        if(existe == true){
+            System.out.println("Erro: Conta já existe.");
+        } else {
+            System.out.println("Pessoa física ou jurídica? Escolha seu tipo de conta \n[1] Pessoa Física\n[2] Pessoa Jurídica: ");
+            int tipoConta = scan.nextInt();
+
+            switch (tipoConta){
                 case 1:
                     pf(conta);
                     break;
@@ -106,21 +110,7 @@ public class MainAT {
                 default:
                  System.out.println("Valor inválido");   
             }
-        }
-
-//        if(conta == 1){
-//            if(existe){
-//            System.out.println("Não é permitido criar mais contas Pessoa Física");
-//            } else {
-//                pf(conta);
-//            } 
-//        } else if(conta == 2){
-//            if(existe){
-//            System.out.println("Não é permitido criar mais contas Pessoa Jurídica");
-//            } else {
-//                pj(conta);
-//            } 
-//        } 
+        }  
     }
     
     public static void listagemDeContas(ArrayList<Contas> contas){
@@ -255,10 +245,8 @@ public class MainAT {
     
     public static void pf(int conta){
         String nomeCorrentista, cpf;
-        int contaNumero;
         float saldo, chequeEspecial;
         
-        contaNumero = conta;
         System.out.println("Insira nome do correntista");
         nomeCorrentista = insereNome();
         System.out.println("CPF do correntista: ");
@@ -268,7 +256,7 @@ public class MainAT {
         System.out.println("Saldo do correntista: ");
         saldo = scan.nextFloat();
 
-        PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
+        PF pf = new PF(conta, nomeCorrentista, cpf, chequeEspecial, saldo);
 
         contas.add(pf);
     }

@@ -90,15 +90,14 @@ public class ContasArquivo {
         for (int i = 0; i < contas.size(); i++) { 
             
             System.out.println(contas.get(i));    
-            
+//            %.2f
             try {
                 if (contas.get(i) instanceof PF){
 //                   saida.format("%s;%f;%s;%s;%f\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PF)contas.get(i)).getNomeDoCorrentista(), ((PF)contas.get(i)).getCpf(), ((PF)contas.get(i)).getChequeEspecial());
                     saida.format("1;%s\n", contas.get(i));
-                    System.out.println("---------------------------");
                 } else {
 //                    saida.format("%s;%f;%s;%s\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PJ)contas.get(i)).getNomeDaEmpresa(), ((PJ)contas.get(i)).getCnpj());
-                    saida.format("2;%s;\n", contas.get(i));
+                    saida.format("2;%s\n", contas.get(i));
                 }
             }
             catch (FormatterClosedException erro) {
