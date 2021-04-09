@@ -38,7 +38,7 @@ public class PJ extends Contas{
                     .append(divisoes[1].substring(0, 1).toUpperCase())
                     .append(divisoes[1].substring(1)).toString();
 
-        return super.toString() + "\nNome da empresa: " + nomeDaEmpresa + "\nCNPJ: " + cnpj;
+        return super.toString() + ";" + nomeDaEmpresa + ";" + cnpj;
     }
     
     

@@ -47,6 +47,6 @@ public class PF extends Contas {
                     .append(divisoes[1].substring(0, 1).toUpperCase())
                     .append(divisoes[1].substring(1)).toString();
         
-        return super.toString() + "\nNome: " + nomeDoCorrentista + "\nCPF: " + cpf + "\nCheque Especial: " + chequeEspecial;
+        return super.toString() + ";" + nomeDoCorrentista + ";" + cpf + ";" + chequeEspecial;
     }
 }

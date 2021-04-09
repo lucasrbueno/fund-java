@@ -46,28 +46,30 @@ public class ContasArquivo {
     }    
     
     public static void leArquivo(Scanner entrada, ArrayList<Contas> contas) {
-        int contaNumero = 0;
+        int contaNumero;
         
         try {
-            String linha = " ";
-            String[] campos = null;
+            String linha;
+            String[] campos;
             while(entrada.hasNext()) {
-                if(contaNumero == 1){
-                    campos = linha.split(";");
-                    contaNumero = Integer.parseInt(campos[0]);
-                    float saldo = Float.parseFloat(campos[1]);
-                    String nomeCorrentista = campos[2];
+                linha = entrada.nextLine();
+                campos = linha.split(";");
+                int tipoConta = Integer.parseInt(campos[0]);
+                if(tipoConta == 1){
+                    contaNumero = Integer.parseInt(campos[1]);
+                    String nomeCorrentista = campos[2];                 
                     String cpf = campos[3];
                     float chequeEspecial = Float.parseFloat(campos[4]);
+                    float saldo = Float.parseFloat(campos[5]);
 
                     PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
 
                     contas.add(pf);
                 } else {
-                    contaNumero = Integer.parseInt(campos[0]);
-                    float saldo = Float.parseFloat(campos[1]);
-                    String nomeEmpresa = campos[2];
-                    String cnpj = campos[3];
+                    contaNumero = Integer.parseInt(campos[1]);
+                    float saldo = Float.parseFloat(campos[2]);
+                    String nomeEmpresa = campos[3];
+                    String cnpj = campos[4];
 
                     PJ pj = new PJ(contaNumero, nomeEmpresa, cnpj, saldo);
 
@@ -91,10 +93,12 @@ public class ContasArquivo {
             
             try {
                 if (contas.get(i) instanceof PF){
-                   saida.format("%s;%f,%s,%s,%f\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PF)contas.get(i)).getNomeDoCorrentista(), ((PF)contas.get(i)).getCpf(), ((PF)contas.get(i)).getChequeEspecial());
+//                   saida.format("%s;%f;%s;%s;%f\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PF)contas.get(i)).getNomeDoCorrentista(), ((PF)contas.get(i)).getCpf(), ((PF)contas.get(i)).getChequeEspecial());
+                    saida.format("1;%s\n", contas.get(i));
+                    System.out.println("---------------------------");
                 } else {
-                    saida.format("%s;%f,%s,%s,%f\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PJ)contas.get(i)).getNomeDaEmpresa(), ((PJ)contas.get(i)).getCnpj());
-
+//                    saida.format("%s;%f;%s;%s\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PJ)contas.get(i)).getNomeDaEmpresa(), ((PJ)contas.get(i)).getCnpj());
+                    saida.format("2;%s;\n", contas.get(i));
                 }
             }
             catch (FormatterClosedException erro) {

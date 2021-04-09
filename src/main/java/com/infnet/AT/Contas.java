@@ -37,9 +37,8 @@ public abstract class Contas {
         saldo -= valor;
     }
     
-
     @Override
     public String toString() {
-       return "Número da conta: " + numeroDaConta + "\nSaldo: "+ saldo; 
+       return numeroDaConta + ";" + saldo; 
     } 
 }

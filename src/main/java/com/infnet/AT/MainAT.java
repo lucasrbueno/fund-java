@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 public class MainAT {
     private static Scanner scan;
+    private static Scanner in;
     private static final ArrayList<Contas> contas = new ArrayList<>();
-    private static final ArrayList<Contas> arquivo = new ArrayList<>();
     
     public static void main(String[] args) {
         
@@ -18,11 +18,21 @@ public class MainAT {
     
     public static void escolhaMenuOriginal(){
         scan = new Scanner(System.in);
+        in = new Scanner(System.in);
         int escolha;
+        final String nome = "contas.txt";
+        Formatter saida;
+        
+        ContasArquivo.setNome(nome);
+        in = ContasArquivo.abreLeitura();
+        if (in != null) {
+            ContasArquivo.leArquivo(in, contas);
+            ContasArquivo.fechaArquivo(in);
+        } 
 
         escolha = menuOriginal();
 
-        while(escolha != 6){
+        while(escolha != 5){
            switch (escolha) {
             case 1:
                 incluirConta(contas);
@@ -36,33 +46,17 @@ public class MainAT {
             case 4:
                 escolhaMenuRelatorio();
                 break;
-            case 5:
-                final String nome = "contas.txt";
-                Formatter saida;
-                ContasArquivo.setNome(nome);
-                
-                System.out.println("Lendo arquivo...");
-                scan = ContasArquivo.abreLeitura();
-                if (scan != null) {
-                    ContasArquivo.leArquivo(scan, arquivo);
-                    ContasArquivo.fechaArquivo(scan);
-                    mostraContas(contas);
-                }    
-                
-                System.out.println("Gravando arquivo...");
-                saida = ContasArquivo.abreGravacao();
-                ContasArquivo.gravaContas(saida, arquivo);
-                ContasArquivo.fechaArquivo(saida);
-                
-                escolha = 6;
-                break;
             default:
                 System.out.println("Opção inválida, escolha outra opção.");
                 break;
             }
-
            escolha = menuOriginal();
         }
+        
+        System.out.println("Gravando arquivo...");
+        saida = ContasArquivo.abreGravacao();
+        ContasArquivo.gravaContas(saida, contas);
+        ContasArquivo.fechaArquivo(saida);
     }
     
     public static int menuOriginal(){
@@ -96,22 +90,37 @@ public class MainAT {
     private static void incluirConta(ArrayList<Contas> contas){
 
         System.out.println("Escolha seu tipo de conta\n[1] Pessoa Física\n[2] Pessoa Jurídica");
-        int conta = scan.nextInt(); 
+//        int tipoConta = scan.nextInt();
+//        System.out.println("Escolha uma conta:");
+        int conta = scan.nextInt();
         boolean existe = pesquisaConta(contas, conta);
         
-        if(conta == 1){
-            if(existe){
-            System.out.println("Não é permitido criar mais contas Pessoa Física");
-            } else {
-                pf(conta);
-            } 
-        } else if(conta == 2){
-            if(existe){
-            System.out.println("Não é permitido criar mais contas Pessoa Jurídica");
-            } else {
-                pj(conta);
-            } 
-        } 
+        if(existe == false){
+            switch (conta){
+                case 1:
+                    pf(conta);
+                    break;
+                case 2:
+                    pj(conta);
+                    break;
+                default:
+                 System.out.println("Valor inválido");   
+            }
+        }
+
+//        if(conta == 1){
+//            if(existe){
+//            System.out.println("Não é permitido criar mais contas Pessoa Física");
+//            } else {
+//                pf(conta);
+//            } 
+//        } else if(conta == 2){
+//            if(existe){
+//            System.out.println("Não é permitido criar mais contas Pessoa Jurídica");
+//            } else {
+//                pj(conta);
+//            } 
+//        } 
     }
     
     public static void listagemDeContas(ArrayList<Contas> contas){
@@ -329,9 +338,9 @@ public class MainAT {
         if(contas.size() > 0) {
             System.out.println("Listagem de contas acima de um valor previsto:");
             for(Contas c : contas) {
-                
+                saldo = c.getSaldo();
+
                 if(c instanceof PF){
-                    saldo = c.getSaldo();
                     if(saldo > 100){
                         System.out.println("--------------------------------------------");
                         System.out.println("PF:\n" + c);
@@ -339,7 +348,6 @@ public class MainAT {
                         System.out.println("Conta de pessoa física está abaixo de 100 reais de saldo");
                     }
                 } else if(c instanceof PJ) {
-                    saldo = c.getSaldo();
                     if(saldo > 100){
                         System.out.println("--------------------------------------------");
                         System.out.println("PJ:\n" + c);
