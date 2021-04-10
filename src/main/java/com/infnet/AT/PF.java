@@ -5,7 +5,7 @@ public class PF extends Contas {
     public String cpf;
     public float chequeEspecial;
 
-    public PF(int numeroDaConta, String nomeDoCorrentista, String cpf, float chequeEspecial, float saldo) {
+    public PF(int numeroDaConta, float saldo,String nomeDoCorrentista, String cpf, float chequeEspecial) {
         super(numeroDaConta, saldo);
         this.nomeDoCorrentista = nomeDoCorrentista;
         this.cpf = cpf;

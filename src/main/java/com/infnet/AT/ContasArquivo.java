@@ -57,21 +57,22 @@ public class ContasArquivo {
                 int tipoConta = Integer.parseInt(campos[0]);
                 if(tipoConta == 1){
                     contaNumero = Integer.parseInt(campos[1]);
-                    String nomeCorrentista = campos[2];                 
-                    String cpf = campos[3];
-                    float chequeEspecial = Float.parseFloat(campos[4]);
-                    float saldo = Float.parseFloat(campos[5]);
+                    float saldo = Float.parseFloat(campos[2]);
+                    String nomeCorrentista = campos[3];                    
+                    String cpf = campos[4];
+                    float chequeEspecial = Float.parseFloat(campos[5]);
+                    
 
-                    PF pf = new PF(contaNumero, nomeCorrentista, cpf, chequeEspecial, saldo);
+                    PF pf = new PF(contaNumero, saldo, nomeCorrentista, cpf, chequeEspecial);
 
                     contas.add(pf);
-                } else {
+                } else if (tipoConta == 2) {
                     contaNumero = Integer.parseInt(campos[1]);
                     float saldo = Float.parseFloat(campos[2]);
                     String nomeEmpresa = campos[3];
                     String cnpj = campos[4];
 
-                    PJ pj = new PJ(contaNumero, nomeEmpresa, cnpj, saldo);
+                    PJ pj = new PJ(contaNumero, saldo, nomeEmpresa, cnpj);
 
                     contas.add(pj);
                 }
@@ -90,14 +91,20 @@ public class ContasArquivo {
         for (int i = 0; i < contas.size(); i++) { 
             
             System.out.println(contas.get(i));    
-//            %.2f
             try {
                 if (contas.get(i) instanceof PF){
-//                   saida.format("%s;%f;%s;%s;%f\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PF)contas.get(i)).getNomeDoCorrentista(), ((PF)contas.get(i)).getCpf(), ((PF)contas.get(i)).getChequeEspecial());
-                    saida.format("1;%s\n", contas.get(i));
-                } else {
-//                    saida.format("%s;%f;%s;%s\n", contas.get(i).getNumeroDaConta(), contas.get(i).getSaldo(), ((PJ)contas.get(i)).getNomeDaEmpresa(), ((PJ)contas.get(i)).getCnpj());
-                    saida.format("2;%s\n", contas.get(i));
+                    saida.format("1;%s;%s;%s;%s;%s\n", 
+                            contas.get(i).getNumeroDaConta(),
+                            contas.get(i).getSaldo(),                            
+                            ((PF)contas.get(i)).getNomeDoCorrentista(), 
+                            ((PF)contas.get(i)).getCpf(), 
+                            ((PF)contas.get(i)).getChequeEspecial());
+                } else if (contas.get(i) instanceof PJ){
+                    saida.format("2;%s;%s;%s;%s;\n", 
+                            contas.get(i).getNumeroDaConta(),
+                            contas.get(i).getSaldo(),
+                            ((PJ)contas.get(i)).getNomeDaEmpresa(),
+                            ((PJ)contas.get(i)).getCnpj());           
                 }
             }
             catch (FormatterClosedException erro) {

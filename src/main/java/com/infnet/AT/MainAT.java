@@ -88,8 +88,6 @@ public class MainAT {
     }
     
     private static void incluirConta(ArrayList<Contas> contas){
-
-//        System.out.println("Escolha seu tipo de conta\n[1] Pessoa Física\n[2] Pessoa Jurídica");
         System.out.println("Escolha o número da conta");
         int conta = scan.nextInt();
         boolean existe = pesquisaConta(contas, conta);
@@ -102,10 +100,10 @@ public class MainAT {
 
             switch (tipoConta){
                 case 1:
-                    pf(conta);
+                    incluirContaPessoaFisica(conta);
                     break;
                 case 2:
-                    pj(conta);
+                    incluirContaPessoaJuridica(conta);
                     break;
                 default:
                  System.out.println("Valor inválido");   
@@ -145,16 +143,14 @@ public class MainAT {
     }
     
     public static void removerConta(){
-
         if(contas.size() > 0) {
-            System.out.println("Qual conta você quer apagar? \n[1] Conta de Pessoa Física \n[2] Conta de Pessoa Jurídica");
+            System.out.println("Escreva o número da conta que você deseja apagar: ");
             int escolha = scan.nextInt();
             
             for(int i = 0; i < contas.size(); i++){
                 if(escolha == contas.get(i).getNumeroDaConta()){
                     contas.remove(i);
-                } else{
-                    System.out.println("Não existem contas com o número: " + escolha);
+                    System.out.println("Conta " + escolha + " apagada com sucesso");
                 }
             }
         } else {
@@ -220,30 +216,34 @@ public class MainAT {
     }
     
     public static void alterarSaldo(ArrayList<Contas> contas){
-        
-        int contaEscolha;
-
         if(contas.size() > 0) {  
-                System.out.println("Qual tipo de conta? \n[1] Pessoa Física \n[2] Pessoa Jurídica");
-                contaEscolha = scan.nextInt();
-                
-                switch (contaEscolha) {
+            System.out.println("Escolha o número da conta");
+            int conta = scan.nextInt();
+            boolean existe = pesquisaConta(contas, conta);
+
+            if(existe == false){
+                System.out.println("Erro: Conta não existe.");
+            } else {
+                System.out.println("Qual tipo de manuntenção? \n[1] Crédito\n[2] Débito: ");
+                int tipoManuntencao = scan.nextInt();
+
+                switch (tipoManuntencao){
                     case 1:
-                        calculoPF(contas);
+                        calculoCredito(contas, conta);
                         break;
                     case 2:
-                        calculoPJ(contas);
+                        calculoPJ(contas, conta);
                         break;
                     default:
-                        System.out.println("Nenhuma conta cadastrada com esse número para ter alteração de saldo.");
-                        break;
+                     System.out.println("Valor inválido");   
+                }
             }
         } else {
             System.out.println("Nenhuma conta cadastrada para ter alteração de saldo.");
         }
     }
     
-    public static void pf(int conta){
+    public static void incluirContaPessoaFisica(int conta){
         String nomeCorrentista, cpf;
         float saldo, chequeEspecial;
         
@@ -256,12 +256,12 @@ public class MainAT {
         System.out.println("Saldo do correntista: ");
         saldo = scan.nextFloat();
 
-        PF pf = new PF(conta, nomeCorrentista, cpf, chequeEspecial, saldo);
+        PF pf = new PF(conta, saldo, nomeCorrentista, cpf, chequeEspecial);
 
         contas.add(pf);
     }
     
-    public static void pj(int conta){
+    public static void incluirContaPessoaJuridica(int conta){
         String cnpj, nomeEmpresa;
         int contaNumero;
         float saldo;
@@ -274,7 +274,7 @@ public class MainAT {
         System.out.println("Saldo da conta: ");
         saldo = scan.nextFloat();
 
-        PJ pj = new PJ(contaNumero, nomeEmpresa, cnpj, saldo);
+        PJ pj = new PJ(contaNumero, saldo, nomeEmpresa, cnpj);
 
         contas.add(pj);
     }
@@ -359,68 +359,52 @@ public class MainAT {
         
     }
     
-    public static void calculoPF(ArrayList<Contas> contas){
+    public static void calculoCredito(ArrayList<Contas> contas, int conta){
+        float saldo;
+        
             for(int i = 0; i < contas.size(); i++){
-                System.out.println("PESSOA FÍSICA");
-                System.out.println("Quer: \n[1] Crédito \n[2] Débito");
-                int escolha = scan.nextInt();
-                float saldo;
-
-                float devendo = -((PF) contas.get(i)).getChequeEspecial();
-                switch (escolha) {
-                    case 1:
-                        if(contas.get(i) instanceof PF){
-                            System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
-                            saldo = scan.nextFloat();
-                            contas.get(i).credito(saldo);
-                        } else {
-                            System.out.println("Não existem contas PF para crédito");
-                        } break;
-                    case 2:
-                        if(contas.get(i) instanceof PF){
-                                System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
-                                saldo = scan.nextFloat();
-                                float calculo = contas.get(i).getSaldo() - saldo;
-                            if((contas.get(i).getSaldo() == devendo) || calculo < devendo){
-                                System.out.println("Saldo insuficiente para débito.");
-                            } else {
-                                contas.get(i).debito(saldo);
-                            }
-                        } break;
-                    default:
-                        System.out.println("Não existem contas PF para débito");
-                        break;
-                }   
-            }
-    }
-    
-    public static void calculoPJ(ArrayList<Contas> contas){   
-        for(int i = 0; i < contas.size(); i++){ 
-            System.out.println("PESSOA JURÍDICA");
-            System.out.println("Quer: \n[1] Crédito \n[2] Débito");
-            int escolha = scan.nextInt();
-            float saldo;
-            
-            if(escolha == 1){
-                if(contas.get(i) instanceof PJ){
-                    System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica? ");
-                    saldo = scan.nextFloat();
-                    contas.get(i).credito(saldo);
-                } else {
-                    System.out.println("Não existem contas PJ para crédito");
-                }
-                } else if (escolha == 2){
-                    if(contas.get(i) instanceof PJ){
-                        System.out.println("Quanto de saldo quer debitar na conta de Pessoa Jurídica? ");
+                if(conta == contas.get(i).getNumeroDaConta()){
+                    if(contas.get(i) instanceof PF){
+                        System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
                         saldo = scan.nextFloat();
-                        float calculo = contas.get(i).getSaldo() - saldo;
-                    if((contas.get(i).getSaldo() < 0) || (calculo < 0) ){
+                        contas.get(i).credito(saldo);
+                    } else {
+                        System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica? ");
+                        saldo = scan.nextFloat();
+                        contas.get(i).credito(saldo);
+                    } 
+                }
+            }
+
+    }    
+    
+    public static void calculoPJ(ArrayList<Contas> contas, int conta){   
+        float saldo;
+        
+        for(int i = 0; i < contas.size(); i++){
+                if(conta == contas.get(i).getNumeroDaConta()){
+                float devendo = -((PF) contas.get(i)).getChequeEspecial();
+                
+                if(contas.get(i) instanceof PF){
+                    System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
+                    saldo = scan.nextFloat();
+                    float calculo = contas.get(i).getSaldo() - saldo;
+
+                    if((contas.get(i).getSaldo() == devendo) || calculo < devendo){
                         System.out.println("Saldo insuficiente para débito.");
                     } else {
                         contas.get(i).debito(saldo);
                     }
                 } else {
-                    System.out.println("Não existem contas PJ para débito");
+                    System.out.println("Quanto de saldo quer debitar na conta de Pessoa Jurídica? ");
+                    saldo = scan.nextFloat();
+                    float calculo = contas.get(i).getSaldo() - saldo;
+
+                    if((contas.get(i).getSaldo() < 0) || (calculo < 0) ){
+                        System.out.println("Saldo insuficiente para débito.");
+                    } else {
+                        contas.get(i).debito(saldo);
+                    }
                 }
             }
         }

@@ -4,7 +4,7 @@ public class PJ extends Contas{
     public String nomeDaEmpresa;
     public String cnpj;
 
-    public PJ(int numeroDaConta, String nomeDaEmpresa, String cnpj, float saldo) {
+    public PJ(int numeroDaConta, float saldo, String nomeDaEmpresa, String cnpj) {
         super(numeroDaConta, saldo);
         this.nomeDaEmpresa = nomeDaEmpresa;
         this.cnpj = cnpj;
