@@ -2,6 +2,7 @@ package com.infnet.AT;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Formatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -11,8 +12,7 @@ public class MainAT {
     private static Scanner in;
     private static final ArrayList<Contas> contas = new ArrayList<>();
     
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) {       
         escolhaMenuOriginal();       
     }
     
@@ -131,13 +131,22 @@ public class MainAT {
     public static String insereNome(){
         scan = new Scanner(System.in);
         String nome, divisoes[];
+        boolean duplo = false;
         
         do {
             nome = scan.nextLine();
-            
-            divisoes = nome.split(" ");
+            try {
+                divisoes = nome.split(" ");
 
-        } while(divisoes.length != 2);
+                String primeiroNome = divisoes[0];
+                String segundoNome = divisoes[1];
+
+                duplo = true;
+                
+            } catch (Exception e){
+                System.out.println("Por favor, insira nome completo: ");
+            }          
+        } while(duplo == false); 
 
         return nome;
     }
@@ -150,7 +159,7 @@ public class MainAT {
             for(int i = 0; i < contas.size(); i++){
                 if(escolha == contas.get(i).getNumeroDaConta()){
                     contas.remove(i);
-                    System.out.println("Conta " + escolha + " apagada com sucesso");
+                    System.out.println("Conta " + escolha + " apagada com sucesso!");
                 }
             }
         } else {
@@ -204,7 +213,7 @@ public class MainAT {
                 listagemDeContas(contas);
                 break; 
             case 4:
-                
+                impressaoOperacoes(contas);
                 break;
             default:
                 System.out.println("Opção inválida, escolha outra opção.");
@@ -232,7 +241,7 @@ public class MainAT {
                         calculoCredito(contas, conta);
                         break;
                     case 2:
-                        calculoPJ(contas, conta);
+                        calculoDebito(contas, conta);
                         break;
                     default:
                      System.out.println("Valor inválido");   
@@ -355,11 +364,11 @@ public class MainAT {
             }
     }
     
-    public static void operacoesFeitas(){
-        
-    }
-    
     public static void calculoCredito(ArrayList<Contas> contas, int conta){
+        String tipoOperacoes = "Crédito";
+        Date dataHora = new Date();
+        String data;
+        String hora;
         float saldo;
         
             for(int i = 0; i < contas.size(); i++){
@@ -367,33 +376,53 @@ public class MainAT {
                     if(contas.get(i) instanceof PF){
                         System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
                         saldo = scan.nextFloat();
+                        
+                        data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+                        hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+                        
                         contas.get(i).credito(saldo);
+                        
+                        contas.get(i).salvarOperacoes(data, hora, tipoOperacoes, saldo);
+                        
                     } else {
                         System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica? ");
                         saldo = scan.nextFloat();
+                        data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+                        hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+                        
                         contas.get(i).credito(saldo);
+                        
+                        contas.get(i).salvarOperacoes(data, hora, tipoOperacoes, saldo);
                     } 
                 }
             }
-
     }    
     
-    public static void calculoPJ(ArrayList<Contas> contas, int conta){   
+    public static void calculoDebito(ArrayList<Contas> contas, int conta){ 
+        String tipoOperacoes = "Débito";
+        Date dataHora = new Date();
+        String data;
+        String hora;
         float saldo;
         
         for(int i = 0; i < contas.size(); i++){
-                if(conta == contas.get(i).getNumeroDaConta()){
-                float devendo = -((PF) contas.get(i)).getChequeEspecial();
+                if(conta == contas.get(i).getNumeroDaConta()){ 
                 
                 if(contas.get(i) instanceof PF){
                     System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
                     saldo = scan.nextFloat();
+                    float devendo = -((PF) contas.get(i)).getChequeEspecial();
                     float calculo = contas.get(i).getSaldo() - saldo;
 
                     if((contas.get(i).getSaldo() == devendo) || calculo < devendo){
                         System.out.println("Saldo insuficiente para débito.");
                     } else {
+                        data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+                        hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+                        
                         contas.get(i).debito(saldo);
+                        
+                        contas.get(i).salvarOperacoes(data, hora, tipoOperacoes, saldo);
                     }
                 } else {
                     System.out.println("Quanto de saldo quer debitar na conta de Pessoa Jurídica? ");
@@ -403,10 +432,34 @@ public class MainAT {
                     if((contas.get(i).getSaldo() < 0) || (calculo < 0) ){
                         System.out.println("Saldo insuficiente para débito.");
                     } else {
+                        data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+                        hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+                        
                         contas.get(i).debito(saldo);
+                        
+                        contas.get(i).salvarOperacoes(data, hora, tipoOperacoes, saldo);
+                        System.out.println(contas.get(i).impressaoOperacoes());
                     }
                 }
             }
         }
     }
-}
+
+    private static void impressaoOperacoes(ArrayList<Contas> contas) {
+        System.out.println("Escolha o número da conta para ver extrato: ");
+            int conta = scan.nextInt();
+            boolean existe = pesquisaConta(contas, conta);
+
+            if(existe == false){
+                System.out.println("Erro: Conta não existe.");
+            } else {
+                for(int i = 0; i < contas.size(); i++){                   
+                    if(conta == contas.get(i).getNumeroDaConta()){
+                        StringBuilder lista = new StringBuilder();
+                        lista = contas.get(i).impressaoOperacoes();
+                        System.out.println(lista);
+                    }
+                }
+            }
+        }  
+    }
