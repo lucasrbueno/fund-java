@@ -8,17 +8,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainAT {
-    private static Scanner scan;
-    private static Scanner in;
-    private static final ArrayList<Contas> contas = new ArrayList<>();
-    
     public static void main(String[] args) {       
         escolhaMenuOriginal();       
     }
     
     public static void escolhaMenuOriginal(){
-        scan = new Scanner(System.in);
-        in = new Scanner(System.in);
+        ArrayList<Contas> contas = new ArrayList<>();
+        Scanner in;
         int escolha;
         final String nome = "contas.txt";
         Formatter saida;
@@ -41,10 +37,10 @@ public class MainAT {
                 alterarSaldo(contas);
                 break;
             case 3:
-                removerConta();
+                removerConta(contas);
                 break; 
             case 4:
-                escolhaMenuRelatorio();
+                escolhaMenuRelatorio(contas);
                 break;
             default:
                 System.out.println("Opção inválida, escolha outra opção.");
@@ -60,6 +56,7 @@ public class MainAT {
     }
     
     public static int menuOriginal(){
+        Scanner scan = new Scanner(System.in);
         int escolha = 0;
         boolean bool = false;
         
@@ -88,6 +85,7 @@ public class MainAT {
     }
     
     private static void incluirConta(ArrayList<Contas> contas){
+        Scanner scan = new Scanner(System.in);
         System.out.println("Escolha o número da conta");
         int conta = scan.nextInt();
         boolean existe = pesquisaConta(contas, conta);
@@ -100,10 +98,10 @@ public class MainAT {
 
             switch (tipoConta){
                 case 1:
-                    incluirContaPessoaFisica(conta);
+                    incluirContaPessoaFisica(contas, conta);
                     break;
                 case 2:
-                    incluirContaPessoaJuridica(conta);
+                    incluirContaPessoaJuridica(contas, conta);
                     break;
                 default:
                  System.out.println("Valor inválido");   
@@ -129,6 +127,7 @@ public class MainAT {
     }
     
     public static String insereNome(){
+        Scanner scan;
         scan = new Scanner(System.in);
         String nome, divisoes[];
         boolean duplo = false;
@@ -151,7 +150,8 @@ public class MainAT {
         return nome;
     }
     
-    public static void removerConta(){
+    public static void removerConta(ArrayList<Contas> contas){
+        Scanner scan = new Scanner(System.in);
         if(contas.size() > 0) {
             System.out.println("Escreva o número da conta que você deseja apagar: ");
             int escolha = scan.nextInt();
@@ -168,6 +168,7 @@ public class MainAT {
     }
     
     public static int menuRelatório(){
+        Scanner scan = new Scanner(System.in);
         int escolha = 0;
         boolean bool = false;
         
@@ -195,8 +196,7 @@ public class MainAT {
         return escolha;
     }
     
-    public static void escolhaMenuRelatorio(){
-        scan = new Scanner(System.in);
+    public static void escolhaMenuRelatorio(ArrayList<Contas> contas){
         int escolha;
 
         escolha = menuRelatório();
@@ -204,10 +204,10 @@ public class MainAT {
         while(escolha != 5){
            switch (escolha) {
             case 1:
-                clienteNegativo();
+                clienteNegativo(contas);
                 break;
             case 2:
-                clienteAcima();
+                clienteAcima(contas);
                 break;
             case 3:
                 listagemDeContas(contas);
@@ -225,6 +225,7 @@ public class MainAT {
     }
     
     public static void alterarSaldo(ArrayList<Contas> contas){
+        Scanner scan = new Scanner(System.in);
         if(contas.size() > 0) {  
             System.out.println("Escolha o número da conta");
             int conta = scan.nextInt();
@@ -252,7 +253,8 @@ public class MainAT {
         }
     }
     
-    public static void incluirContaPessoaFisica(int conta){
+    public static void incluirContaPessoaFisica(ArrayList<Contas> contas, int conta){
+        Scanner scan = new Scanner(System.in);
         String nomeCorrentista, cpf;
         float saldo, chequeEspecial;
         
@@ -270,7 +272,8 @@ public class MainAT {
         contas.add(pf);
     }
     
-    public static void incluirContaPessoaJuridica(int conta){
+    public static void incluirContaPessoaJuridica(ArrayList<Contas> contas, int conta){
+        Scanner scan = new Scanner(System.in);
         String cnpj, nomeEmpresa;
         int contaNumero;
         float saldo;
@@ -300,7 +303,7 @@ public class MainAT {
        return existe; 
     }
     
-    public static void clienteNegativo(){
+    public static void clienteNegativo(ArrayList<Contas> contas){
         float saldo;
         
         if(contas.size() > 0) {
@@ -329,7 +332,7 @@ public class MainAT {
         }
     }
     
-    public static void clienteAcima(){
+    public static void clienteAcima(ArrayList<Contas> contas){
         float saldo;
         
         if(contas.size() > 0) {
@@ -365,6 +368,7 @@ public class MainAT {
     }
     
     public static void calculoCredito(ArrayList<Contas> contas, int conta){
+        Scanner scan = new Scanner(System.in);
         String tipoOperacoes = "Crédito";
         Date dataHora = new Date();
         String data;
@@ -398,7 +402,8 @@ public class MainAT {
             }
     }    
     
-    public static void calculoDebito(ArrayList<Contas> contas, int conta){ 
+    public static void calculoDebito(ArrayList<Contas> contas, int conta){
+        Scanner scan = new Scanner(System.in);
         String tipoOperacoes = "Débito";
         Date dataHora = new Date();
         String data;
@@ -446,6 +451,7 @@ public class MainAT {
     }
 
     private static void impressaoOperacoes(ArrayList<Contas> contas) {
+        Scanner scan = new Scanner(System.in);
         System.out.println("Escolha o número da conta para ver extrato: ");
             int conta = scan.nextInt();
             boolean existe = pesquisaConta(contas, conta);
