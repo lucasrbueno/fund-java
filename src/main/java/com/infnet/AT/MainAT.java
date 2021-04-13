@@ -85,7 +85,6 @@ public class MainAT {
     }
     
     private static void incluirConta(ArrayList<Contas> contas){
-        Scanner scan = new Scanner(System.in);
         System.out.println("Escolha o número da conta");
         int conta = validarInteiro();
         boolean existe = pesquisaConta(contas, conta);
@@ -126,7 +125,7 @@ public class MainAT {
         }
     }
     
-    public static String insereNome(){
+    public static String validarNome(){
         Scanner scan;
         scan = new Scanner(System.in);
         String nome, divisoes[];
@@ -144,17 +143,13 @@ public class MainAT {
     }
     
     public static void removerConta(ArrayList<Contas> contas){
-        Scanner scan = new Scanner(System.in);
         if(contas.size() > 0) {
             System.out.println("Escreva o número da conta que você deseja apagar: ");
-            int escolha = scan.nextInt();
+            int escolha = validarInteiro();
+
+            contas.remove(localizaConta(contas, escolha));
+            System.out.println("Conta " + escolha + " apagada com sucesso!");
             
-            for(int i = 0; i < contas.size(); i++){
-                if(escolha == contas.get(i).getNumeroDaConta()){
-                    contas.remove(i);
-                    System.out.println("Conta " + escolha + " apagada com sucesso!");
-                }
-            }
         } else {
             System.out.println("Nenhuma conta cadastrada para ser removida.");
         }
@@ -221,7 +216,7 @@ public class MainAT {
         Scanner scan = new Scanner(System.in);
         if(contas.size() > 0) {  
             System.out.println("Escolha o número da conta");
-            int conta = scan.nextInt();
+            int conta = validarInteiro();
             boolean existe = pesquisaConta(contas, conta);
 
             if(existe == false){
@@ -252,7 +247,7 @@ public class MainAT {
         float saldo, chequeEspecial;
         
         System.out.println("Insira nome do correntista");
-        nomeCorrentista = insereNome();
+        nomeCorrentista = validarNome();
         System.out.println("CPF do correntista: ");
         cpf = scan.next();
         System.out.println("Cheque Especial do correntista: ");
@@ -273,7 +268,7 @@ public class MainAT {
         
         contaNumero = conta;
         System.out.println("Nome da Empresa: ");
-        nomeEmpresa = insereNome();
+        nomeEmpresa = validarNome();
         System.out.println("CNPJ da Empresa: ");
         cnpj = scan.next();
         System.out.println("Saldo da conta: ");
@@ -301,9 +296,9 @@ public class MainAT {
         
         if(contas.size() > 0) {
             System.out.println("Listagem de contas negativadas:");
-            for(Contas c : contas) {     
-                if(c instanceof PF){
-                    saldo = c.getSaldo();
+            for(Contas c : contas) { 
+                saldo = c.getSaldo();
+                if(c instanceof PF){ 
                     if(saldo < 0){
                         System.out.println("--------------------------------------------");
                         System.out.println("PF:\n" + c);
@@ -311,7 +306,6 @@ public class MainAT {
                         System.out.println("Conta de pessoa física não está negativa");
                     }
                 } else if(c instanceof PJ) {
-                    saldo = c.getSaldo();
                     if(saldo < 0){
                         System.out.println("--------------------------------------------");
                         System.out.println("PJ:\n" + c);
@@ -332,7 +326,6 @@ public class MainAT {
             System.out.println("Listagem de contas acima de um valor previsto:");
             for(Contas c : contas) {
                 saldo = c.getSaldo();
-
                 if(c instanceof PF){
                     if(saldo > 100){
                         System.out.println("--------------------------------------------");
@@ -364,96 +357,81 @@ public class MainAT {
         Scanner scan = new Scanner(System.in);
         String tipoOperacoes = "Crédito";
         Date dataHora = new Date();
-        String data;
-        String hora;
+        String data, hora;
         float saldo;
-        
-        for(int i = 0; i < contas.size(); i++){
-            if(conta == contas.get(i).getNumeroDaConta()){
-                if(contas.get(i) instanceof PF){
-                    System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
-                    saldo = validarFloat();
+        int indice = localizaConta(contas, conta);
 
-                    data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
-                    hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+        if(contas.get(indice) instanceof PF){
+            System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
+            saldo = validarFloat();
 
-                    contas.get(i).credito(saldo);
-                    contas.get(i).salvarOperacao(data, hora, tipoOperacoes, saldo);
+            data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+            hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
 
-                } else {
-                    System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica? ");
-                    saldo = validarFloat();
-                    data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
-                    hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+            contas.get(indice).credito(saldo);
+            contas.get(indice).salvarOperacao(data, hora, tipoOperacoes, saldo);
 
-                    contas.get(i).credito(saldo);
-                    contas.get(i).salvarOperacao(data, hora, tipoOperacoes, saldo);
-                } 
-            }
+        } else {
+            System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica? ");
+            saldo = validarFloat();
+            data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+            hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+
+            contas.get(indice).credito(saldo);
+            contas.get(indice).salvarOperacao(data, hora, tipoOperacoes, saldo);
         }
     }    
     
     public static void calculoDebito(ArrayList<Contas> contas, int conta){
-        Scanner scan = new Scanner(System.in);
         String tipoOperacoes = "Débito";
         Date dataHora = new Date();
-        String data;
-        String hora;
+        String data, hora;
         float saldo;
-        
-        for(int i = 0; i < contas.size(); i++){
-                if(conta == contas.get(i).getNumeroDaConta()){ 
+        int indice = localizaConta(contas, conta);
                 
-                if(contas.get(i) instanceof PF){
-                    System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
-                    saldo = scan.nextFloat();
-                    float devendo = -((PF) contas.get(i)).getChequeEspecial();
-                    float calculo = contas.get(i).getSaldo() - saldo;
+        if(contas.get(indice) instanceof PF){
+            System.out.println("Quanto de saldo quer debitar na conta de Pessoa Física? ");
+            saldo = validarFloat();
+            float devendo = -((PF) contas.get(indice)).getChequeEspecial();
+            float calculo = contas.get(indice).getSaldo() - saldo;
 
-                    if((contas.get(i).getSaldo() == devendo) || calculo < devendo){
-                        System.out.println("Saldo insuficiente para débito.");
-                    } else {
-                        data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
-                        hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
-                        
-                        contas.get(i).debito(saldo);                       
-                        contas.get(i).salvarOperacao(data, hora, tipoOperacoes, saldo);
-                    }
-                } else {
-                    System.out.println("Quanto de saldo quer debitar na conta de Pessoa Jurídica? ");
-                    saldo = scan.nextFloat();
-                    float calculo = contas.get(i).getSaldo() - saldo;
+            if((contas.get(indice).getSaldo() == devendo) || calculo < devendo){
+                System.out.println("Saldo insuficiente para débito.");
+            } else {
+                data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+                hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
 
-                    if((contas.get(i).getSaldo() < 0) || (calculo < 0) ){
-                        System.out.println("Saldo insuficiente para débito.");
-                    } else {
-                        data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
-                        hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
-                        
-                        contas.get(i).debito(saldo);                        
-                        contas.get(i).salvarOperacao(data, hora, tipoOperacoes, saldo);
-                    }
-                }
+                contas.get(indice).debito(saldo);                       
+                contas.get(indice).salvarOperacao(data, hora, tipoOperacoes, saldo);
+            }
+        } else {
+            System.out.println("Quanto de saldo quer debitar na conta de Pessoa Jurídica? ");
+            saldo = validarFloat();
+            float calculo = contas.get(indice).getSaldo() - saldo;
+
+            if((contas.get(indice).getSaldo() < 0) || (calculo < 0) ){
+                System.out.println("Saldo insuficiente para débito.");
+            } else {
+                data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+                hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+
+                contas.get(indice).debito(saldo);                        
+                contas.get(indice).salvarOperacao(data, hora, tipoOperacoes, saldo);
             }
         }
     }
 
     private static void impressaoOperacoes(ArrayList<Contas> contas) {
-        Scanner scan = new Scanner(System.in);
         System.out.println("Escolha o número da conta para ver extrato: ");
-        int conta = scan.nextInt();
+        int conta = validarInteiro();
         boolean existe = pesquisaConta(contas, conta);
 
         if(existe == false){
             System.out.println("Erro: Conta não existe.");
         } else {
-            for(int i = 0; i < contas.size(); i++){                   
-                if(conta == contas.get(i).getNumeroDaConta()){
-                    ArrayList<String> operacoes = contas.get(i).getOperacoes();
-                    for(String oper: operacoes){
-                        System.out.println(oper);
-                    }
-                }
+            ArrayList<String> operacoes = contas.get(localizaConta(contas, conta)).getOperacoes();
+            for(String oper: operacoes){
+                System.out.println(oper);
             }
         }
     }  
@@ -477,7 +455,7 @@ public class MainAT {
         return escolha;
     }
     
-        private static int validarInteiro() {
+    private static int validarInteiro() {
         Scanner scan = new Scanner(System.in);
         int escolha = 0;
         boolean falso = false;
@@ -494,5 +472,16 @@ public class MainAT {
             }
         } while(!falso);
         return escolha;
+    }
+    
+    public static int localizaConta(ArrayList<Contas> contas, int opcao){
+        int indice = 0;
+        
+        for(int i = 0; i < contas.size(); i++){
+            if(opcao == contas.get(i).getNumeroDaConta()){
+                indice = i;
+            }
+        }
+        return indice;
     }
 }
