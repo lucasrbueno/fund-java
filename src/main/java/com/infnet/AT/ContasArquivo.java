@@ -62,9 +62,7 @@ public class ContasArquivo {
                     String cpf = campos[4];
                     float chequeEspecial = Float.parseFloat(campos[5]);
                     
-
                     PF pf = new PF(contaNumero, saldo, nomeCorrentista, cpf, chequeEspecial);
-
                     contas.add(pf);
                 } else if (tipoConta == 2) {
                     contaNumero = Integer.parseInt(campos[1]);
@@ -73,7 +71,6 @@ public class ContasArquivo {
                     String cnpj = campos[4];
 
                     PJ pj = new PJ(contaNumero, saldo, nomeEmpresa, cnpj);
-
                     contas.add(pj);
                 }
             }

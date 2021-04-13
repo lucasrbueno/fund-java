@@ -6,8 +6,8 @@ public abstract class Contas {
     private int numeroDaConta;
     private float saldo;
     
-    StringBuilder operacoes = new StringBuilder();
-
+    ArrayList<String> operacoes = new ArrayList<>();
+    
     public Contas(int numeroDaConta, float saldo) {
         this.numeroDaConta = numeroDaConta;
         this.saldo = saldo;
@@ -41,12 +41,13 @@ public abstract class Contas {
         saldo -= valor;
     }
     
-    public void salvarOperacoes(String data, String hora, String tipoOperacoes, float valor){
-        operacoes.append(data+" - "+hora+";"+tipoOperacoes+";"+valor);
-	operacoes.append("\n");
+    public void salvarOperacao(String data, String hora, String tipoOperacao, float valor){
+        String operacao = data + " - " + hora + " " + tipoOperacao + " " + valor;
+
+        operacoes.add(operacao);      
     }
     
-    public StringBuilder impressaoOperacoes(){
+    public ArrayList<String> getOperacoes(){
         return operacoes;
     }
     

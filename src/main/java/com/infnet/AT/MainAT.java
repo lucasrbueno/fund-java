@@ -87,14 +87,14 @@ public class MainAT {
     private static void incluirConta(ArrayList<Contas> contas){
         Scanner scan = new Scanner(System.in);
         System.out.println("Escolha o número da conta");
-        int conta = scan.nextInt();
+        int conta = validarInteiro();
         boolean existe = pesquisaConta(contas, conta);
         
         if(existe == true){
             System.out.println("Erro: Conta já existe.");
         } else {
             System.out.println("Pessoa física ou jurídica? Escolha seu tipo de conta \n[1] Pessoa Física\n[2] Pessoa Jurídica: ");
-            int tipoConta = scan.nextInt();
+            int tipoConta = validarInteiro();
 
             switch (tipoConta){
                 case 1:
@@ -104,7 +104,7 @@ public class MainAT {
                     incluirContaPessoaJuridica(contas, conta);
                     break;
                 default:
-                 System.out.println("Valor inválido");   
+                    System.out.println("Valor inválido");   
             }
         }  
     }
@@ -130,22 +130,15 @@ public class MainAT {
         Scanner scan;
         scan = new Scanner(System.in);
         String nome, divisoes[];
-        boolean duplo = false;
-        
+ 
         do {
             nome = scan.nextLine();
-            try {
-                divisoes = nome.split(" ");
-
-                String primeiroNome = divisoes[0];
-                String segundoNome = divisoes[1];
-
-                duplo = true;
-                
-            } catch (Exception e){
-                System.out.println("Por favor, insira nome completo: ");
-            }          
-        } while(duplo == false); 
+            
+            divisoes = nome.split(" ");
+            if(divisoes.length != 2){
+                System.out.println("Inválido, digite o nome completo");
+            }        
+        } while(divisoes.length != 2); 
 
         return nome;
     }
@@ -234,10 +227,10 @@ public class MainAT {
             if(existe == false){
                 System.out.println("Erro: Conta não existe.");
             } else {
-                System.out.println("Qual tipo de manuntenção? \n[1] Crédito\n[2] Débito: ");
-                int tipoManuntencao = scan.nextInt();
+                System.out.println("Qual tipo de operação? \n[1] Crédito\n[2] Débito ");
+                int tipoOperacao = scan.nextInt();
 
-                switch (tipoManuntencao){
+                switch (tipoOperacao){
                     case 1:
                         calculoCredito(contas, conta);
                         break;
@@ -245,7 +238,7 @@ public class MainAT {
                         calculoDebito(contas, conta);
                         break;
                     default:
-                     System.out.println("Valor inválido");   
+                     System.out.println("Operação inválida");   
                 }
             }
         } else {
@@ -263,9 +256,9 @@ public class MainAT {
         System.out.println("CPF do correntista: ");
         cpf = scan.next();
         System.out.println("Cheque Especial do correntista: ");
-        chequeEspecial = scan.nextFloat();
+        chequeEspecial = validarFloat();
         System.out.println("Saldo do correntista: ");
-        saldo = scan.nextFloat();
+        saldo = validarFloat();
 
         PF pf = new PF(conta, saldo, nomeCorrentista, cpf, chequeEspecial);
 
@@ -284,7 +277,7 @@ public class MainAT {
         System.out.println("CNPJ da Empresa: ");
         cnpj = scan.next();
         System.out.println("Saldo da conta: ");
-        saldo = scan.nextFloat();
+        saldo = validarFloat();
 
         PJ pj = new PJ(contaNumero, saldo, nomeEmpresa, cnpj);
 
@@ -362,9 +355,9 @@ public class MainAT {
     }
     
     public static void mostraContas(ArrayList<Contas> contas) {  
-            for (Contas c: contas) {
-                System.out.println(c);
-            }
+        for (Contas c: contas) {
+            System.out.println(c);
+        }
     }
     
     public static void calculoCredito(ArrayList<Contas> contas, int conta){
@@ -375,31 +368,29 @@ public class MainAT {
         String hora;
         float saldo;
         
-            for(int i = 0; i < contas.size(); i++){
-                if(conta == contas.get(i).getNumeroDaConta()){
-                    if(contas.get(i) instanceof PF){
-                        System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
-                        saldo = scan.nextFloat();
-                        
-                        data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
-                        hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
-                        
-                        contas.get(i).credito(saldo);
-                        
-                        contas.get(i).salvarOperacoes(data, hora, tipoOperacoes, saldo);
-                        
-                    } else {
-                        System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica? ");
-                        saldo = scan.nextFloat();
-                        data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
-                        hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
-                        
-                        contas.get(i).credito(saldo);
-                        
-                        contas.get(i).salvarOperacoes(data, hora, tipoOperacoes, saldo);
-                    } 
-                }
+        for(int i = 0; i < contas.size(); i++){
+            if(conta == contas.get(i).getNumeroDaConta()){
+                if(contas.get(i) instanceof PF){
+                    System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
+                    saldo = validarFloat();
+
+                    data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+                    hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+
+                    contas.get(i).credito(saldo);
+                    contas.get(i).salvarOperacao(data, hora, tipoOperacoes, saldo);
+
+                } else {
+                    System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica? ");
+                    saldo = validarFloat();
+                    data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
+                    hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
+
+                    contas.get(i).credito(saldo);
+                    contas.get(i).salvarOperacao(data, hora, tipoOperacoes, saldo);
+                } 
             }
+        }
     }    
     
     public static void calculoDebito(ArrayList<Contas> contas, int conta){
@@ -425,9 +416,8 @@ public class MainAT {
                         data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
                         hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
                         
-                        contas.get(i).debito(saldo);
-                        
-                        contas.get(i).salvarOperacoes(data, hora, tipoOperacoes, saldo);
+                        contas.get(i).debito(saldo);                       
+                        contas.get(i).salvarOperacao(data, hora, tipoOperacoes, saldo);
                     }
                 } else {
                     System.out.println("Quanto de saldo quer debitar na conta de Pessoa Jurídica? ");
@@ -440,10 +430,8 @@ public class MainAT {
                         data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
                         hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
                         
-                        contas.get(i).debito(saldo);
-                        
-                        contas.get(i).salvarOperacoes(data, hora, tipoOperacoes, saldo);
-                        System.out.println(contas.get(i).impressaoOperacoes());
+                        contas.get(i).debito(saldo);                        
+                        contas.get(i).salvarOperacao(data, hora, tipoOperacoes, saldo);
                     }
                 }
             }
@@ -453,19 +441,58 @@ public class MainAT {
     private static void impressaoOperacoes(ArrayList<Contas> contas) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Escolha o número da conta para ver extrato: ");
-            int conta = scan.nextInt();
-            boolean existe = pesquisaConta(contas, conta);
+        int conta = scan.nextInt();
+        boolean existe = pesquisaConta(contas, conta);
 
-            if(existe == false){
-                System.out.println("Erro: Conta não existe.");
-            } else {
-                for(int i = 0; i < contas.size(); i++){                   
-                    if(conta == contas.get(i).getNumeroDaConta()){
-                        StringBuilder lista = new StringBuilder();
-                        lista = contas.get(i).impressaoOperacoes();
-                        System.out.println(lista);
+        if(existe == false){
+            System.out.println("Erro: Conta não existe.");
+        } else {
+            for(int i = 0; i < contas.size(); i++){                   
+                if(conta == contas.get(i).getNumeroDaConta()){
+                    ArrayList<String> operacoes = contas.get(i).getOperacoes();
+                    for(String oper: operacoes){
+                        System.out.println(oper);
                     }
                 }
             }
-        }  
+        }
+    }  
+    
+    private static float validarFloat() {
+        Scanner scan = new Scanner(System.in);
+        float escolha = 0;
+        boolean falso = false;
+
+        do {
+            String a = scan.next();
+            try {
+                escolha = Float.valueOf(a);
+                
+                falso = true;
+            }
+            catch(Exception ex) {
+                System.out.println("Escolha um número válido ");
+            }
+        } while(!falso);
+        return escolha;
     }
+    
+        private static int validarInteiro() {
+        Scanner scan = new Scanner(System.in);
+        int escolha = 0;
+        boolean falso = false;
+
+        do {
+            String a = scan.next();
+            try {
+                escolha = Integer.valueOf(a);
+                
+                falso = true;
+            }
+            catch(Exception ex) {
+                System.out.println("Escolha um número válido ");
+            }
+        } while(!falso);
+        return escolha;
+    }
+}
