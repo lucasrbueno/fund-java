@@ -4,10 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Formatter;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainAT {
+    static final int FIM = 5;
+    
     public static void main(String[] args) {       
         escolhaMenuOriginal();       
     }
@@ -25,10 +26,8 @@ public class MainAT {
             ContasArquivo.leArquivo(in, contas);
             ContasArquivo.fechaArquivo(in);
         } 
-
         escolha = menuOriginal();
-
-        while(escolha != 5){
+        while(escolha != FIM){
            switch (escolha) {
             case 1:
                 incluirConta(contas);
@@ -47,8 +46,7 @@ public class MainAT {
                 break;
             }
            escolha = menuOriginal();
-        }
-        
+        }        
         System.out.println("Gravando arquivo...");
         saida = ContasArquivo.abreGravacao();
         ContasArquivo.gravaContas(saida, contas);
@@ -56,31 +54,23 @@ public class MainAT {
     }
     
     public static int menuOriginal(){
-        Scanner scan = new Scanner(System.in);
-        int escolha = 0;
-        boolean bool = false;
+        int escolha;
+        boolean bool;
         
-        do {
-            try {
-                StringBuilder menu = new StringBuilder();
-                menu.append("--------------------------------------------")
-                        .append("\n[1] Inclusão de conta")
-                        .append("\n[2] Alterar saldo")
-                        .append("\n[3] Exclusão de conta")
-                        .append("\n[4] Relatórios Gerenciais")
-                        .append("\n[5] Sair.")
-                        .append("\nQual opção deseja?");        
-                System.out.println(menu);
-                escolha = scan.nextInt();
-                bool = true;
-            }
-            catch (InputMismatchException ex) {
-                System.out.println("Se atenha aos números, por favor");
-            } finally {
-                scan.nextLine();
-            }
+        StringBuilder menu = new StringBuilder();
+        menu.append("--------------------------------------------")
+                .append("\n[1] Inclusão de conta")
+                .append("\n[2] Alterar saldo")
+                .append("\n[3] Exclusão de conta")
+                .append("\n[4] Relatórios Gerenciais")
+                .append("\n[5] Sair.")
+                .append("\nQual opção deseja?");  
+        
+        do {  
+            System.out.println(menu);
+            escolha = validarInteiro();
+            bool = true;
         } while (!bool);
-
         return escolha;
     }
     
@@ -138,7 +128,6 @@ public class MainAT {
                 System.out.println("Inválido, digite o nome completo");
             }        
         } while(divisoes.length != 2); 
-
         return nome;
     }
     
@@ -148,39 +137,30 @@ public class MainAT {
             int escolha = validarInteiro();
 
             contas.remove(localizaConta(contas, escolha));
-            System.out.println("Conta " + escolha + " apagada com sucesso!");
-            
+            System.out.println("Conta " + escolha + " apagada com sucesso!");           
         } else {
             System.out.println("Nenhuma conta cadastrada para ser removida.");
         }
     }
     
     public static int menuRelatório(){
-        Scanner scan = new Scanner(System.in);
-        int escolha = 0;
-        boolean bool = false;
+        int escolha;
+        boolean bool;
         
-        do {
-            try {
-                StringBuilder menu = new StringBuilder();
-                menu.append("--------------------------------------------")
-                        .append("\n[1] Listar Clientes com saldo negativo")
-                        .append("\n[2] Listar Clientes com saldo acima de 100 reais")
-                        .append("\n[3] Listar todas as contas")
-                        .append("\n[4] Listar operações feitas nas contas")
-                        .append("\n[5] Voltar")
-                        .append("\nQual opção deseja?");        
-                System.out.println(menu);
-                escolha = scan.nextInt();
-                bool = true;
-            }
-            catch (InputMismatchException ex) {
-                System.out.println("Se atenha aos números, por favor");
-            } finally {
-                scan.nextLine();
-            }
+        StringBuilder menu = new StringBuilder();
+        menu.append("--------------------------------------------")
+                .append("\n[1] Listar Clientes com saldo negativo")
+                .append("\n[2] Listar Clientes com saldo acima de 100 reais")
+                .append("\n[3] Listar todas as contas")
+                .append("\n[4] Listar operações feitas nas contas")
+                .append("\n[5] Voltar")
+                .append("\nQual opção deseja?");   
+        
+        do {     
+            System.out.println(menu);
+            escolha = validarInteiro();
+            bool = true;
         } while (!bool);
-
         return escolha;
     }
     
@@ -188,8 +168,7 @@ public class MainAT {
         int escolha;
 
         escolha = menuRelatório();
-
-        while(escolha != 5){
+        while(escolha != FIM){
            switch (escolha) {
             case 1:
                 clienteNegativo(contas);
@@ -207,7 +186,6 @@ public class MainAT {
                 System.out.println("Opção inválida, escolha outra opção.");
                 break;
             }
-
            escolha = menuRelatório();
         }
     }
@@ -354,7 +332,6 @@ public class MainAT {
     }
     
     public static void calculoCredito(ArrayList<Contas> contas, int conta){
-        Scanner scan = new Scanner(System.in);
         String tipoOperacoes = "Crédito";
         Date dataHora = new Date();
         String data, hora;
@@ -364,19 +341,15 @@ public class MainAT {
         if(contas.get(indice) instanceof PF){
             System.out.println("Quanto de saldo quer creditar na conta de Pessoa Física? ");
             saldo = validarFloat();
-
             data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
             hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
-
             contas.get(indice).credito(saldo);
             contas.get(indice).salvarOperacao(data, hora, tipoOperacoes, saldo);
-
         } else {
             System.out.println("Quanto de saldo quer creditar na conta de Pessoa Jurídica? ");
             saldo = validarFloat();
             data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
             hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
-
             contas.get(indice).credito(saldo);
             contas.get(indice).salvarOperacao(data, hora, tipoOperacoes, saldo);
         }
@@ -400,7 +373,6 @@ public class MainAT {
             } else {
                 data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
                 hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
-
                 contas.get(indice).debito(saldo);                       
                 contas.get(indice).salvarOperacao(data, hora, tipoOperacoes, saldo);
             }
@@ -414,7 +386,6 @@ public class MainAT {
             } else {
                 data = new SimpleDateFormat("dd/MM/yyyy").format(dataHora);
                 hora = new SimpleDateFormat("HH:mm:ss").format(dataHora);
-
                 contas.get(indice).debito(saldo);                        
                 contas.get(indice).salvarOperacao(data, hora, tipoOperacoes, saldo);
             }
@@ -444,8 +415,7 @@ public class MainAT {
         do {
             String a = scan.next();
             try {
-                escolha = Float.valueOf(a);
-                
+                escolha = Float.valueOf(a);                
                 falso = true;
             }
             catch(Exception ex) {
@@ -463,8 +433,7 @@ public class MainAT {
         do {
             String a = scan.next();
             try {
-                escolha = Integer.valueOf(a);
-                
+                escolha = Integer.valueOf(a);                
                 falso = true;
             }
             catch(Exception ex) {
@@ -475,7 +444,7 @@ public class MainAT {
     }
     
     public static int localizaConta(ArrayList<Contas> contas, int opcao){
-        int indice = 0;
+        int indice = -1;
         
         for(int i = 0; i < contas.size(); i++){
             if(opcao == contas.get(i).getNumeroDaConta()){
